@@ -12,7 +12,7 @@
     },
     "ranking": {
       "type": "array", "items": { "type": "integer", "minimum": 0, "maximum": 4 },
-      "description": "Candidate indexes, funniest and most send-to-your-family first. Be honest: rank by how hard a real Indian 22-year-old would laugh and share it."
+      "description": "Candidate indexes, funniest and most send-to-your-family first. Be honest: rank by how hard a real Indian daughter would laugh and send it to her mum or sister."
     }
   },
   "definitions": {
@@ -23,14 +23,14 @@
       "properties": {
         "title": { "type": "string", "maxLength": 60, "description": "Short internal name, e.g. 'The Amazon parcel'" },
         "premise": { "type": "string", "maxLength": 200, "description": "One sentence: the situation and the punchline, used to avoid repeats" },
-        "cast": { "type": "string", "enum": ["mummy", "papa", "nani", "didi"], "description": "Who you are chatting with" },
+        "cast": { "type": "string", "enum": ["mummy"], "description": "Always mummy" },
         "clock": { "type": "string", "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$", "description": "Phone clock, 24h, fitting the story (03:40 for a late-night one)" },
         "script": {
           "type": "array", "minItems": 4, "maxItems": 11,
           "items": {
             "type": "object", "additionalProperties": false, "required": ["who", "text"],
             "properties": {
-              "who": { "type": "string", "enum": ["them", "me", "react"], "description": "them = the family member, me = you, react = an emoji reaction on their last message" },
+              "who": { "type": "string", "enum": ["them", "me", "react"], "description": "them = the family member, me = the daughter, react = an emoji reaction on their last message" },
               "text": { "type": "string", "maxLength": 120, "description": "The message exactly as typed. For react: one emoji." },
               "pause": { "type": "number", "minimum": 0, "maximum": 3, "description": "Optional extra seconds before this item, for comic timing (e.g. 1.2 before a deadpan 'Ok.')" }
             }
@@ -40,7 +40,7 @@
         "post": {
           "type": "object", "additionalProperties": false, "required": ["caption", "hashtags", "youtubeTitle"],
           "properties": {
-            "caption": { "type": "string", "maxLength": 220, "description": "Instagram caption: one short reaction line, then a line that makes people send it to someone ('send this to the Didi in your family'). No hashtags." },
+            "caption": { "type": "string", "maxLength": 220, "description": "Instagram caption: one short reaction line, then a line that makes people send it to their mum, sister or best friend ('send this to your mumma'). No hashtags." },
             "hashtags": { "type": "array", "minItems": 3, "maxItems": 5, "items": { "type": "string", "pattern": "^#[a-z0-9_]+$" } },
             "youtubeTitle": { "type": "string", "maxLength": 70, "description": "Plain, curious title for YouTube Shorts" }
           }

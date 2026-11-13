@@ -1,6 +1,6 @@
 # Mummy is typing…
 
-Funny, too-real WhatsApp chats from an Indian family, two a day (13:00 and 21:00 India time), rendered as reels and
+Funny, too-real WhatsApp chats between an Indian Mummy and her daughter, two a day (13:00 and 21:00 India time), rendered as reels and
 posted automatically to Instagram (and YouTube or Facebook if you add them in Buffer). Same pipeline as Untold Files,
 minus the voice.
 
@@ -16,7 +16,7 @@ flowchart LR
 ## Where things live
 
 - `brand/brand.json`: name, handle, hashtag, post times.
-- `brand/cast.json`: Mummy, Papa, Nani, Didi, with how each one texts.
+- `brand/cast.json`: Mummy, and how she texts. Every chat is Mummy and her daughter, nobody else.
 - `brand/series.json`: the recurring formats and how often each runs (`weight`).
 - `prompts/writer.md`: the rules Claude writes by, above all the anti-cringe and emoji rules.
 - `scripts/write.ts`: the Claude call and the checks (message count, emoji, banned tropes, length, repeats).

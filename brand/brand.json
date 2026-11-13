@@ -2,8 +2,14 @@
   "name": "Mummy is typing…",
   "handle": "@mummyistyping",
   "hashtag": "#mummyistyping",
-  "pitch": "funny, too-real WhatsApp chats from an Indian family: Mummy who is always one step ahead, dry Papa, chaotic Nani, a Didi who snitches, and a broke twenty-something who gets caught every time",
-  "audience": "Indians aged 16-35 (and their parents), scrolling fast, mostly on Android, many watching with sound off; they share reels to family and friends in DMs",
-  "timezone": { "label": "India", "offsetMinutes": 330 },
-  "slots": ["13:00", "21:00"]
+  "pitch": "funny, too-real WhatsApp chats between an Indian Mummy and her daughter: Mummy is always one step ahead, the daughter is broke, busy and caught every time",
+  "audience": "Indian women aged 16-35 (and their mothers), scrolling fast, mostly on Android, many with sound off; they send reels to their mum, sisters and friends in DMs",
+  "timezone": {
+    "label": "India",
+    "offsetMinutes": 330
+  },
+  "slots": [
+    "13:00",
+    "21:00"
+  ]
 }

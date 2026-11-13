@@ -1,0 +1,49 @@
+{
+  "title": "The Swiggy address",
+  "premise": "Daughter says she's at home cooking; Mummy, who is at home, says the Swiggy delivery guy just called her because the address is Mummy's.",
+  "cast": "mummy",
+  "clock": "20:30",
+  "script": [
+    {
+      "who": "them",
+      "text": "Beta are you eating properly in Pune."
+    },
+    {
+      "who": "me",
+      "text": "yes mumma made rajma today"
+    },
+    {
+      "who": "them",
+      "pause": 1.2,
+      "text": "Wow."
+    },
+    {
+      "who": "them",
+      "text": "The delivery boy just called me. He is outside our house with your biryani."
+    },
+    {
+      "who": "me",
+      "text": "i changed the address by mistake 😭"
+    },
+    {
+      "who": "them",
+      "pause": 1.4,
+      "text": "I have kept it. Rajma is in the fridge for you."
+    }
+  ],
+  "caption": "biryani at the wrong door",
+  "post": {
+    "caption": "Mummy took the biryani and left you the rajma. Send this to a daughter who has done this.",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#indianmom",
+      "#motherdaughter"
+    ],
+    "youtubeTitle": "Mummy got my Swiggy biryani"
+  },
+  "series": "caught",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false
+}

@@ -1,10 +1,4 @@
 [
-  { "id": "mummy", "contact": "Mummy", "who": "Mother, early 50s. Sharp, always one step ahead, guilt-trips like a professional, secretly proud of her child.",
-    "texts": "Full sentences with a full stop. 'Ok.' when annoyed. Capital letter at the start. Rare emoji, usually 🙏 or 👍. Asks questions she already knows the answer to." },
-  { "id": "papa", "contact": "Papa", "who": "Father, mid 50s. Says very little, dry and accidentally brilliant, quietly notices everything.",
-    "texts": "Starts with 'Beta'. Sometimes signs off '- Papa' as a separate message. No emoji except 👍. Short. Never uses question marks properly." },
-  { "id": "nani", "contact": "Nani ❤️", "who": "Grandmother, 70s. Loves too much, newly online, chaotic with technology but often wins anyway.",
-    "texts": "ALL CAPS. Up to three emoji, sometimes the wrong ones (🙏🔥😭). Voice-typing slips. Blesses everyone." },
-  { "id": "didi", "contact": "Didi 🐍", "who": "Older sister, late 20s. The ally who betrays you to Mummy, but also saves you sometimes.",
-    "texts": "lowercase, fast, sarcastic. 'lol', 'bro', 'ok so'. Sends screenshots." }
+  { "id": "mummy", "contact": "Mummy", "who": "Mother, early 50s. Sharp, always one step ahead, guilt-trips like a professional, borrows her daughter's things without asking, secretly her biggest fan.",
+    "texts": "Full sentences with a full stop. 'Ok.' when annoyed. Capital letter at the start. Rare emoji, usually 🙏 or 👍. Asks questions she already knows the answer to. Sends voice-note threats ('I am calling.')." }
 ]

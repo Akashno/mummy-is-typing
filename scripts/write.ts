@@ -50,26 +50,24 @@ export function checkChat(x: unknown, series?: Series): string[] {
   if (!msgs.some(l => l.who === 'me')) errors.push('"me" never speaks')
   if (reacts.length > 1) errors.push('at most one reaction per chat')
   for (const r of reacts) if ([...r.text.matchAll(EMOJI)].length !== 1) errors.push(`a reaction must be exactly one emoji, not "${r.text}"`)
-  const nani = c.cast === 'nani'
   let emoji = 0
   msgs.forEach((l, i) => {
     const n = [...l.text.matchAll(EMOJI)].length
     emoji += n
-    if (n > (nani && l.who === 'them' ? 3 : 1)) errors.push(`message ${i + 1} ("${l.text}") has ${n} emoji; at most one, only where it shows a feeling`)
+    if (n > 1) errors.push(`message ${i + 1} ("${l.text}") has ${n} emoji; at most one, only where it shows a feeling`)
     if ([...l.text].length > 90) errors.push(`message ${i + 1} is too long; keep messages under 60 characters`)
     for (const [re, what] of BANNED) if (re.test(l.text)) errors.push(`message ${i + 1}: ${what} is not allowed`)
   })
-  if (emoji > (nani ? 5 : 3)) errors.push(`${emoji} emoji in the chat; use ${nani ? 5 : 3} at most, only where they show a feeling`)
+  if (emoji > 3) errors.push(`${emoji} emoji in the chat; use 3 at most, only where they show a feeling`)
   const dur = timeline({ title: c.title, script: c.script }).duration
   if (dur < 8 || dur > 24) errors.push(`the chat plays for ${dur.toFixed(1)}s; aim for 10-20s`)
-  if (series && series.contact !== 'any' && series.contact !== c.cast) errors.push(`series "${series.id}" is a chat with ${series.contact}, not ${c.cast}`)
   if (/#/.test(c.post.caption)) errors.push('no hashtags in post.caption; they go in post.hashtags')
   if (!c.post.hashtags.some(h => h.toLowerCase() === BRAND.hashtag)) errors.push(`hashtags must include ${BRAND.hashtag}`)
   return errors
 }
 
 // ---- novelty ----------------------------------------------------------------------------------------
-const STOP = new Set('a an the and or but of to in on at for with your you her his their that this from by is was it me my mummy papa nani didi asks says'.split(' '))
+const STOP = new Set('a an the and or but of to in on at for with your you her his their that this from by is was it me my mummy daughter beta asks says'.split(' '))
 const bag = (s: string) => new Set(s.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length > 2 && !STOP.has(w)))
 function similar(a: string, b: string) {
   const A = bag(a), B = bag(b)
@@ -99,8 +97,8 @@ function system() {
 }
 function buildPrompt(date: string, s: Series, history: HistoryEntry[]) {
   return [
-    `# Today\n\nReel ${date}. Series: **${s.id}**: ${s.brief}${s.contact === 'any' ? '' : `\nEvery candidate is a chat with ${s.contact}.`}`,
-    `Hashtags: always ${BRAND.hashtag}, plus 2-4 broad ones (e.g. #indianfamily #desimom #relatable #whatsappchat).`,
+    `# Today\n\nReel ${date}. Series: **${s.id}**: ${s.brief}`,
+    `Hashtags: always ${BRAND.hashtag}, plus 2-4 broad ones (e.g. #desimom #indianmom #motherdaughter #relatable).`,
     '# Past reels (never repeat these situations)',
     history.length ? history.slice(-300).reverse().map(h => `- ${h.title}: ${h.premise}`).join('\n') : '(none yet: this is the first one)',
   ].join('\n\n')

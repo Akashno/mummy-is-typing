@@ -4,7 +4,7 @@ export interface Line { who: 'them' | 'me' | 'react', text: string, pause?: numb
 export interface Chat {
   title: string
   premise: string
-  cast: 'mummy' | 'papa' | 'nani' | 'didi'
+  cast: 'mummy'
   clock: string
   script: Line[]
   caption: string
