@@ -1,0 +1,204 @@
+name: Daily reel
+
+# One reel per slot in brand.json (13:00 and 21:00 India time): Claude writes the chat (one call), it's
+# rendered, the history is committed, the MP4 is published on GitHub Pages, and (with POSTING=on)
+# Buffer schedules it for its slot.
+#
+# The schedule runs only when the repo variable DAILY is "on" (gh variable set DAILY --body on),
+# so a fresh copy of the template does nothing until it's set up. Manual runs always work.
+on:
+  # Every hour, at odd minutes (GitHub delays or drops scheduled runs, most of all on the hour). Each run makes the
+  # next slot posting 40 min to 6 h from now that has no video yet, so every slot gets several tries; runs with
+  # nothing to do stop after a few seconds in the guard job.
+  schedule:
+    - cron: '23 */2 * * *'
+    - cron: '53 1-23/2 * * *'
+  workflow_dispatch:
+    inputs:
+      id:
+        description: Video id (YYYY-MM-DD-HHMM, a slot in brand.json); empty means the next free slot
+        required: false
+      test:
+        description: Mark it as a test in the history
+        type: boolean
+        default: false
+      post_now:
+        description: Post in about 5 minutes instead of at the slot time
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  issues: write
+
+concurrency:
+  group: daily-reel
+  cancel-in-progress: false
+
+jobs:
+  # Decides whether this run does anything and which slot it makes: manual runs always do; scheduled ones only
+  # when DAILY is on and a slot in the next 6 hours has no video yet.
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+      id: ${{ steps.check.outputs.id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            brand
+            data
+            scripts
+      - id: check
+        run: |
+          if [ "${{ github.event_name }}" = workflow_dispatch ]; then
+            id="${{ inputs.id }}"; [ -n "$id" ] || id="$(node scripts/slot.mjs --any)"
+          elif [ "${{ vars.DAILY }}" != on ]; then
+            echo "DAILY is not on"; id=""
+          else
+            id="$(node scripts/slot.mjs)"
+          fi
+          echo "${id:-nothing to make now}"
+          echo "id=$id" >> "$GITHUB_OUTPUT"
+          [ -n "$id" ] && echo go=true >> "$GITHUB_OUTPUT" || echo go=false >> "$GITHUB_OUTPUT"
+
+  make:
+    needs: guard
+    if: needs.guard.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      date: ${{ steps.daily.outputs.date }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Install packages
+        run: |
+          npm ci --no-audit --no-fund
+          npm install -g @anthropic-ai/claude-code
+
+      - name: Write and render
+        id: daily
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: npx tsx scripts/daily.ts --id "${{ needs.guard.outputs.id }}" ${{ inputs.test && '--test' || '' }}
+
+      - name: Keep the video as a run artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: reel-${{ steps.daily.outputs.date }}
+          path: |
+            out/${{ steps.daily.outputs.date }}.mp4
+            out/${{ steps.daily.outputs.date }}-sheet.jpg
+            reels/${{ steps.daily.outputs.date }}.json
+          retention-days: 30
+
+      - name: Commit the reel and history
+        run: |
+          git config user.name reel-bot
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add reels/ data/history.json
+          git commit -qm "reel: ${{ steps.daily.outputs.date }}" || echo "nothing to commit"
+          git pull -q --rebase origin main && git push -q origin HEAD:main
+
+      - name: Add the video to the media branch
+        run: scripts/media.sh "${{ steps.daily.outputs.date }}" "out/${{ steps.daily.outputs.date }}.mp4" "reels/${{ steps.daily.outputs.date }}.json"
+
+  publish:
+    needs: make
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      page_url: ${{ steps.deploy.outputs.page_url }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}${{ needs.make.outputs.date }}.mp4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: media
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Check the video is reachable
+        run: |
+          url="${{ steps.deploy.outputs.page_url }}${{ needs.make.outputs.date }}.mp4"
+          for i in $(seq 1 20); do
+            read -r code type < <(curl -s -o /dev/null -w '%{http_code} %{content_type}\n' "$url")
+            echo "$code $type"
+            if [ "$code" = 200 ] && [[ "$type" == video/mp4* ]]; then echo "ok: $url"; exit 0; fi
+            sleep 15
+          done
+          echo "::error::$url is not serving video/mp4"; exit 1
+
+  # Schedules the video on every channel through Buffer. Off until the repo variable
+  # POSTING is "on" (gh variable set POSTING --body on), and never for test runs.
+  post:
+    needs: [make, publish]
+    if: vars.POSTING == 'on' && !inputs.test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      BUFFER_API_KEY_1: ${{ secrets.BUFFER_API_KEY_1 }}
+      BUFFER_API_KEY_2: ${{ secrets.BUFFER_API_KEY_2 }}
+      PAGES_URL: ${{ needs.publish.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Schedule on every channel in brand/channels.json
+        run: npx tsx scripts/post.ts "${{ needs.make.outputs.date }}" ${{ inputs.post_now && '--now' || '' }}
+
+      - name: Commit what was scheduled
+        if: always()
+        run: |
+          git config user.name reel-bot
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add data/posts/ data/history.json
+          git commit -qm "posted: ${{ needs.make.outputs.date }}" || echo "nothing to commit"
+          git pull -q --rebase origin main && git push -q origin HEAD:main
+
+      - name: Check yesterday's post in this slot went out
+        run: |
+          id="${{ needs.make.outputs.date }}"; y="$(date -u -d "${id:0:10} -1 day" +%F)${id:10}"
+          if [ -f "data/posts/$y.json" ]; then npx tsx scripts/post.ts "$y" --check; else echo "no posts for $y"; fi
+
+  report-failure:
+    needs: [guard, make, publish, post]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Open an issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --repo "${{ github.repository }}" \
+            --title "Daily reel failed: $(date -u +%F)" \
+            --body "The daily reel run failed. Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

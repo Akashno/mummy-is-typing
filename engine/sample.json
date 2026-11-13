@@ -1,0 +1,24 @@
+{
+  "title": "The Amazon parcel",
+  "series": "mummy-wins",
+  "contact": "Mummy",
+  "cast": "mummy",
+  "premise": "Mummy opens your Amazon parcel and keeps one of the three phone covers",
+  "clock": "21:41",
+  "theme": "light",
+  "showCaption": false,
+  "caption": "the blue one is hers now",
+  "script": [
+    { "who": "them", "text": "Your Amazon parcel came." },
+    { "who": "me", "text": "dont open it" },
+    { "who": "them", "text": "Ok.", "pause": 1.1 },
+    { "who": "them", "text": "Why do you need 3 phone covers", "pause": 0.3 },
+    { "who": "me", "text": "MUMMY" },
+    { "who": "them", "text": "The blue one is mine now." }
+  ],
+  "post": {
+    "caption": "She didn't even ask which one 😭\nSend this to someone whose Mummy opens their parcels.",
+    "hashtags": ["#mummyistyping", "#indianmom", "#desifamily", "#relatable"],
+    "youtubeTitle": "Mummy opened my Amazon parcel"
+  }
+}

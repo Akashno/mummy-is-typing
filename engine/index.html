@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mummy is typing… renderer</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;500&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+<!-- The reel renderer. Opened by scripts/capture.mjs (headless, ?capture=1, one frame per OP.render(t))
+     and by `npm run preview` (plays in real time with sound). The timing lives in timeline.js. -->
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;font:14px/1.4 system-ui,sans-serif;color:#eee}
+.controls{display:flex;gap:8px;padding:10px;flex-wrap:wrap;justify-content:center}
+.controls button{font:inherit;font-size:13px;background:#26262a;color:#eee;border:1px solid #3a3a40;border-radius:8px;padding:6px 10px;cursor:pointer}
+.controls button.on{background:#00a884;border-color:#00a884}
+.controls span{font-size:12px;color:#999;align-self:center}
+.capture .controls{display:none}
+/* ---------- the reel: Android phone at 412dp wide, 9:16 ---------- */
+.phone{
+  --wall:#efeae2;--dots:rgba(0,0,0,.035);--head:#fff;--headink:#111b21;--sub:#667781;--in:#fff;--out:#d9fdd3;--ink:#111b21;--meta:#667781;--tick:#53bdeb;
+  --chip:#fff;--chipink:#54656f;--bar:#efeae2;--field:#fff;--icon:#54656f;--green:#00a884;--shadow:rgba(11,20,26,.13);
+  --kb:#eef0f4;--key:#fff;--fkey:#d7dce4;--kink:#1f1f1f;--accent:#0b57d0;
+  position:relative;width:412px;height:732.42px;overflow:hidden;background:var(--wall);color:var(--ink);
+  font-family:Roboto,"Noto Color Emoji",sans-serif;-webkit-font-smoothing:antialiased
+}
+.phone.dark{--wall:#0b141a;--dots:rgba(255,255,255,.025);--head:#0b141a;--headink:#e9edef;--sub:#8696a0;--in:#202c33;--out:#005c4b;--ink:#e9edef;--meta:rgba(233,237,239,.6);--chip:#182229;--chipink:#8696a0;--bar:#0b141a;--field:#202c33;--icon:#8696a0;--shadow:rgba(0,0,0,.3);
+  --kb:#1f2022;--key:#3c3d40;--fkey:#2c2d30;--kink:#e3e3e3;--accent:#a8c7fa}
+.wall{position:absolute;inset:0;background-color:var(--wall);background-image:radial-gradient(var(--dots) 1.2px,transparent 1.3px),radial-gradient(var(--dots) 1.2px,transparent 1.3px);background-size:26px 26px;background-position:0 0,13px 13px}
+
+.status{position:absolute;top:0;left:0;right:0;height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 18px 0 22px;font-size:14px;font-weight:500;background:var(--head);color:var(--headink);z-index:6}
+.status .ic{display:flex;gap:6px;align-items:center}
+.head{position:absolute;top:30px;left:0;right:0;height:60px;background:var(--head);color:var(--headink);display:flex;align-items:center;padding:0 6px 0 4px;z-index:5;box-shadow:0 1px 0 var(--shadow)}
+.head .back{width:36px;display:grid;place-items:center}
+.head .av{width:40px;height:40px;border-radius:50%;background:#dfe5e7;overflow:hidden;flex:none;display:grid;place-items:end center}
+.dark .head .av{background:#6b7c85}
+.head .who{flex:1;padding-left:10px;min-width:0}
+.head .nm{font-size:17px;font-weight:500;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.head .st{font-size:13px;color:var(--sub);line-height:1.3;height:17px}
+.head .st.typing{color:var(--green)}
+.head .acts{display:flex;gap:20px;padding-right:10px;align-items:center}
+
+.view{position:absolute;top:90px;left:0;right:0;bottom:362px;overflow:hidden}
+.list{position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;padding:0 14px 6px}
+.chip{align-self:center;background:var(--chip);color:var(--chipink);font-size:12.5px;padding:5px 12px;border-radius:8px;box-shadow:0 1px .5px var(--shadow);margin:10px 0 8px;text-transform:uppercase;letter-spacing:.2px}
+.e2e{align-self:center;max-width:88%;text-align:center;background:#ffeecd;color:#54656f;font-size:12.5px;line-height:1.35;padding:6px 10px;border-radius:8px;margin-top:8px;box-shadow:0 1px .5px var(--shadow)}
+.dark .e2e{background:#182229;color:#ffd279}
+.row{display:flex;margin-top:2px}
+.row.first{margin-top:9px}
+.row.me{justify-content:flex-end}
+.b{position:relative;max-width:80%;padding:6px 9px 8px 9px;border-radius:7.5px;font-size:16px;line-height:21px;box-shadow:0 1px .5px var(--shadow);white-space:pre-wrap;word-wrap:break-word}
+.me .b{background:var(--out)}
+.them .b{background:var(--in)}
+.first.me .b{border-top-right-radius:0}
+.first.them .b{border-top-left-radius:0}
+.first.me .b::before,.first.them .b::before{content:"";position:absolute;top:0;width:8px;height:13px}
+.first.me .b::before{right:-8px;background:var(--out);clip-path:polygon(0 0,100% 0,0 100%)}
+.first.them .b::before{left:-8px;background:var(--in);clip-path:polygon(0 0,100% 0,100% 100%)}
+.b .sp{display:inline-block;width:var(--mw,52px)}
+.b .meta{position:absolute;right:7px;bottom:3px;font-size:11px;color:var(--meta);display:flex;align-items:center;gap:3px;line-height:15px}
+.b .meta svg{display:block}
+.b.big{background:none!important;box-shadow:none;font-size:52px;line-height:60px;padding:0 2px 18px}
+.b.big::before{display:none}
+.b.big .sp{display:none}
+.b.big .meta{right:0;bottom:0;background:var(--chip);border-radius:9px;padding:0 6px;box-shadow:0 1px .5px var(--shadow)}
+.react{position:absolute;bottom:-17px;background:var(--in);border-radius:12px;padding:1px 5px;font-size:14px;line-height:20px;box-shadow:0 1px 2px var(--shadow);border:1px solid var(--wall)}
+.them .react{left:8px}.me .react{right:8px}
+.row.reacted{margin-bottom:16px}
+
+/* input bar */
+.bar{position:absolute;left:0;right:0;bottom:300px;height:62px;display:flex;align-items:center;gap:6px;padding:0 6px 4px;z-index:4}
+.field{flex:1;height:48px;border-radius:24px;background:var(--field);display:flex;align-items:center;padding:0 12px 0 10px;gap:10px;box-shadow:0 1px .5px var(--shadow);color:var(--icon);min-width:0}
+.field .ph{flex:1}
+.field.has .txt{flex:1}
+.field .txt{flex:0 1 auto;min-width:0;font-size:17px;color:var(--ink);white-space:nowrap;overflow:hidden;display:flex;justify-content:flex-start}
+.field .ph{color:var(--sub);font-size:17px}
+.field.has .ph,.field.has .cam,.field.has .pay{display:none}
+.caret{display:inline-block;width:2px;height:21px;background:var(--green);vertical-align:-4px;margin-left:1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.mic{width:48px;height:48px;border-radius:50%;background:var(--green);display:grid;place-items:center;flex:none}
+.mic .s{display:none}.field.has ~ .mic .s{display:block}.field.has ~ .mic .m{display:none}
+
+/* Gboard-style keyboard */
+.kb{position:absolute;left:0;right:0;bottom:0;height:300px;background:var(--kb);padding:0 4px;z-index:4;color:var(--kink)}
+.kb .tb{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:var(--kink);opacity:.75}
+.kr{display:flex;justify-content:center;gap:5px;margin-bottom:9px}
+.k{width:35.8px;height:46px;border-radius:7px;background:var(--key);display:grid;place-items:center;font-size:22px;font-family:Roboto,"Noto Color Emoji",sans-serif}
+.k.f{background:var(--fkey);font-size:15px}
+.k.w{width:53px}.k.sp{flex:1}.k.ent{width:53px;background:var(--accent);color:#fff}
+.dark .k.ent{color:#062e6f}
+.kr.r2{padding:0 18px}
+.kb .nav{position:absolute;left:0;right:0;bottom:0;height:22px;display:flex;justify-content:center;align-items:center}
+.kb .nav i{width:108px;height:4px;border-radius:2px;background:var(--kink);opacity:.6}
+
+.cap{position:absolute;left:18px;right:18px;top:40%;text-align:center;font-family:Anton,sans-serif;font-size:38px;line-height:1.05;text-transform:uppercase;color:#fff;-webkit-text-stroke:2px #000;paint-order:stroke fill;text-shadow:0 4px 0 #000;z-index:8;opacity:0;pointer-events:none}
+
+</style>
+</head>
+<body>
+<div class="controls"><button id="replay">↻ Replay</button><button id="theme">Dark mode</button><button id="capt">End caption</button><button id="snd" class="on">Sound on</button><span id="note"></span></div>
+<div class="phone" id="phone">
+  <div class="wall"></div>
+  <div class="view"><div class="list" id="list"></div></div>
+  <div class="status"><span id="clock">21:41</span><span class="ic">
+    <svg width="16" height="14" viewBox="0 0 16 14" fill="currentColor"><path d="M8 13.5 0 3.3a12.8 12.8 0 0 1 16 0Z"/></svg>
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M14 0v14H0Z"/></svg>
+    <svg width="9" height="15" viewBox="0 0 9 15" fill="currentColor"><rect x="2.5" y="0" width="4" height="2" rx=".5"/><rect x="0" y="1.5" width="9" height="13.5" rx="1.5"/></svg>
+    <span style="font-size:13px">82%</span>
+  </span></div>
+  <div class="head">
+    <div class="back"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z"/></svg></div>
+    <div class="av"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="15.5" r="7.5" fill="#fff"/><path d="M5 40c1.5-9 7.5-13.5 15-13.5S33.5 31 35 40Z" fill="#fff"/></svg></div>
+    <div class="who"><div class="nm" id="nm">Mummy</div><div class="st" id="st">online</div></div>
+    <div class="acts">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2.5" y="6" width="13" height="12" rx="2.5"/><path d="m15.5 10.5 6-3.5v10l-6-3.5"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"/></svg>
+      <svg width="4" height="18" viewBox="0 0 4 18" fill="currentColor"><circle cx="2" cy="2" r="2"/><circle cx="2" cy="9" r="2"/><circle cx="2" cy="16" r="2"/></svg>
+    </div>
+  </div>
+  <div class="bar">
+    <div class="field" id="field">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9.5"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/><path d="M8 14.5a4.5 4.5 0 0 0 8 0" stroke-linecap="round"/></svg>
+      <span class="txt" id="typed"></span><span class="ph">Message</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" style="transform:rotate(45deg)"><path d="M16.5 6.5v9a4.5 4.5 0 0 1-9 0V5a3 3 0 0 1 6 0v10a1.5 1.5 0 0 1-3 0V7"/></svg>
+      <span class="pay" style="font-size:18px;font-weight:500;width:22px;height:22px;border:1.7px solid currentColor;border-radius:50%;display:grid;place-items:center;font-size:13px">₹</span>
+      <svg class="cam" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.5L9 4h6l1.5 2H19a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><circle cx="12" cy="13" r="3.8"/></svg>
+    </div>
+    <div class="mic">
+      <svg class="m" width="22" height="22" viewBox="0 0 24 24" fill="#fff"><rect x="8.5" y="2.5" width="7" height="12" rx="3.5"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M12 17.5v3.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <svg class="s" width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2Z"/></svg>
+    </div>
+  </div>
+  <div class="kb" id="kb"></div>
+  <div class="cap" id="cap"></div>
+</div>
+<script type="module">
+import { timeline, ticks } from './timeline.js'
+
+const Q = new URLSearchParams(location.search)
+const CAPTURE = Q.has('capture')
+const $ = (id) => document.getElementById(id)
+const phone = $('phone'), list = $('list'), field = $('field'), typed = $('typed'), cap = $('cap'), st = $('st')
+if (CAPTURE) document.body.classList.add('capture');
+
+/* ---------- keyboard (static, Gboard-style) ---------- */
+;(function () {
+  const L = (s) => [...s].map(c => `<div class="k">${c}</div>`).join('');
+  $('kb').innerHTML = `
+    <div class="tb">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v10l-6 6H4Z"/><path d="M14 20v-6h6"/></svg>
+      <span style="font-size:13px;font-weight:500;border:1.6px solid currentColor;border-radius:4px;padding:0 4px">GIF</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h10M4 12h16M4 17h8"/></svg>
+      <svg width="18" height="22" viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4.5" y="2" width="7" height="13" rx="3.5"/><path d="M1.5 11a6.5 6.5 0 0 0 13 0M8 18v4"/></svg>
+    </div>
+    <div class="kr">${L('qwertyuiop')}</div>
+    <div class="kr r2">${L('asdfghjkl')}</div>
+    <div class="kr"><div class="k f w"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3 3 12h5v8h8v-8h5Z"/></svg></div>${L('zxcvbnm')}<div class="k f w"><svg width="22" height="18" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M8 1h15v16H8L1 9Z"/><path d="m12 5 7 7m0-7-7 7" stroke-linecap="round"/></svg></div></div>
+    <div class="kr"><div class="k f w" style="font-size:14px">?123</div><div class="k f">,</div><div class="k f"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.5"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/><path d="M8 14.5a4.5 4.5 0 0 0 8 0" stroke-linecap="round"/></svg></div><div class="k sp" style="font-size:13px;opacity:.85">English</div><div class="k f">.</div><div class="k ent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5v7H5m4-4-4 4 4 4"/></svg></div></div>
+    <div class="nav"><i></i></div>`;
+})();
+
+
+
+const TICK = {
+  clock: '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="7" cy="7" r="5.3"/><path d="M7 4v3.3l2 1.2" stroke-linecap="round"/></svg>',
+  one: '<svg width="13" height="11" viewBox="0 0 13 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m1.5 6 3 3 7-7.5"/></svg>',
+  two: '<svg width="17" height="11" viewBox="0 0 17 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m1 6 3 3 7-7.5M8.5 8.2l.8.8 7-7.5"/></svg>',
+}
+const onlyEmoji = (t) => /^(\p{Extended_Pictographic}|\p{Emoji_Component}|‍|️){1,3}$/u.test(t)
+const clamp01 = (x) => Math.max(0, Math.min(1, x))
+const easeOut = (x) => 1 - (1 - clamp01(x)) ** 3
+const esc = (s) => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c])
+
+let chat, T, opts = { dark: false, caption: false }
+
+function rowHTML(m, t) {
+  const big = onlyEmoji(m.text)
+  const tk = m.who === 'me' ? ticks(m, t) : null
+  const meta = `<span class="meta"><span>${chat.clock}</span>${tk ? `<span class="tk" style="${tk === 'read' ? 'color:var(--tick)' : ''}">${TICK[tk === 'read' ? 'two' : tk]}</span>` : ''}</span>`
+  const reacted = m.react && t >= m.react.at
+  const react = reacted ? `<span class="react" data-at="${m.react.at}">${esc(m.react.text)}</span>` : ''
+  return `<div class="row ${m.who}${m.first ? ' first' : ''}${reacted ? ' reacted' : ''}" data-at="${m.at}"><div class="b${big ? ' big' : ''}">${esc(m.text)}<span class="sp" style="--mw:${m.who === 'me' ? 62 : 40}px"></span>${meta}${react}</div></div>`
+}
+
+// Draw the screen exactly as it is at time t (seconds). Everything is rebuilt from the timeline, so any frame
+// can be rendered in any order.
+function render(t) {
+  st.textContent = T.typing.some(([a, b]) => t >= a && t < b) ? 'typing…' : 'online'
+  st.classList.toggle('typing', st.textContent !== 'online')
+
+  const inp = T.input.find(x => t >= x.start && t < x.sendAt)
+  const n = inp ? inp.chars.filter(c => c <= t).length : 0
+  field.classList.toggle('has', !!inp && n > 0)
+  typed.innerHTML = inp && n > 0 ? esc(inp.text.slice(0, n).join('')) + '<span class="caret"></span>' : ''
+
+  const shown = T.msgs.filter(m => m.at <= t)
+  list.innerHTML = '<div class="e2e">🔒 Messages and calls are end-to-end encrypted. Only people in this chat can read, listen to, or share them.</div><div class="chip">Today</div>'
+    + shown.map(m => rowHTML(m, t)).join('')
+
+  // new messages slide in and push the rest up; reactions pop
+  let push = 0
+  for (const row of list.querySelectorAll('.row')) {
+    const age = t - +row.dataset.at
+    if (age >= 0 && age < 0.22) {
+      const p = easeOut(age / 0.22)
+      push += (row.offsetHeight + parseFloat(getComputedStyle(row).marginTop)) * (1 - p)
+      const b = row.firstChild, q = easeOut(age / 0.2)
+      b.style.opacity = q
+      b.style.transform = `translateY(${10 * (1 - q)}px)`
+    }
+    const r = row.querySelector('.react')
+    if (r) {
+      const a = t - +r.dataset.at
+      if (a < 0.22) push += 16 * (1 - easeOut(a / 0.22))
+      if (a < 0.32) {
+        const p = a / 0.32
+        r.style.transform = `scale(${p < 0.5 ? 2.6 * p : 1.3 - 0.6 * (p - 0.5)})`
+      }
+    }
+  }
+  list.style.transform = push ? `translateY(${push}px)` : ''
+
+  if (T.captionAt != null && t >= T.captionAt) {
+    const p = clamp01((t - T.captionAt) / 0.42)
+    cap.textContent = chat.caption
+    cap.style.opacity = Math.min(1, p * 2)
+    cap.style.transform = `scale(${p < 0.6 ? 1.6 - 0.65 * (p / 0.6) : 0.95 + 0.05 * ((p - 0.6) / 0.4)})`
+  }
+  else cap.style.opacity = 0
+}
+
+function setup() {
+  phone.classList.toggle('dark', opts.dark)
+  $('nm').textContent = chat.contact
+  $('clock').textContent = chat.clock
+  T = timeline(chat, { caption: opts.caption })
+}
+
+function fit() {
+  const free = CAPTURE ? 0 : 60
+  phone.style.zoom = Math.min(innerWidth / 412, (innerHeight - free) / 732.42)
+}
+
+// ---- sound (preview only; the MP4 gets the same cues mixed by scripts/make.ts) ----
+let ac, buf = {}
+async function loadSound(kind) {
+  for (const url of [`../brand/sounds/${kind}.mp3`, `../brand/sounds/${kind}.wav`, `sounds/${kind}.wav`]) {
+    try {
+      const r = await fetch(url)
+      if (r.ok) { buf[kind] = await ac.decodeAudioData(await r.arrayBuffer()); return url }
+    } catch {}
+  }
+}
+let soundOn = true, playing = 0
+function play() {
+  const id = ++playing
+  setup()
+  const t0 = performance.now(), fired = new Set()
+  const tick = () => {
+    if (id !== playing) return
+    const t = (performance.now() - t0) / 1000
+    if (t > T.duration) return play()
+    render(t)
+    T.cues.forEach((c, i) => {
+      if (c.t <= t && !fired.has(i)) {
+        fired.add(i)
+        if (soundOn && ac && buf[c.kind === 'out' ? 'send' : 'receive']) {
+          const s = ac.createBufferSource(); s.buffer = buf[c.kind === 'out' ? 'send' : 'receive']; s.connect(ac.destination); s.start()
+        }
+      }
+    })
+    requestAnimationFrame(tick)
+  }
+  tick()
+}
+
+// ---- boot ----
+window.OP = { ready: false }
+try {
+  const file = Q.get('chat') || 'sample.json'
+  chat = await (await fetch(file.startsWith('/') ? file : `${file.includes('/') ? '../' : ''}${file}`)).json()
+  opts.dark = chat.theme === 'dark'
+  opts.caption = !!chat.showCaption
+  await document.fonts.ready
+  await Promise.all([document.fonts.load('16px Roboto'), document.fonts.load('16px "Noto Color Emoji"', '😂🙏')])
+  setup(); fit(); addEventListener('resize', fit)
+  Object.assign(window.OP, {
+    duration: () => T.duration,
+    cues: () => T.cues,
+    render: (t) => { render(t); return true },
+    ready: true,
+  })
+  if (!CAPTURE) {
+    $('replay').onclick = play
+    $('theme').onclick = () => { opts.dark = !opts.dark; $('theme').classList.toggle('on', opts.dark); play() }
+    $('capt').onclick = () => { opts.caption = !opts.caption; $('capt').classList.toggle('on', opts.caption); play() }
+    $('snd').onclick = () => { soundOn = !soundOn; $('snd').classList.toggle('on', soundOn); $('snd').textContent = soundOn ? 'Sound on' : 'Sound off' }
+    $('note').textContent = 'click the page once to hear sound'
+    addEventListener('pointerdown', async () => {
+      if (ac) return
+      ac = new AudioContext()
+      const a = await loadSound('send'), b = await loadSound('receive')
+      $('note').textContent = [a, b].some(u => u?.includes('brand/')) ? 'sound: your files from brand/sounds/' : 'sound: lookalike tones'
+    })
+    play()
+  }
+  else render(0)
+}
+catch (e) { window.OP.bootError = String(e?.stack || e) }
+</script>
+</body>
+</html>

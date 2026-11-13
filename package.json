@@ -1,0 +1,25 @@
+{
+  "name": "mummy-is-typing",
+  "private": true,
+  "type": "module",
+  "description": "Funny Indian family WhatsApp chats, written by Claude, rendered as reels, posted automatically.",
+  "scripts": {
+    "write": "tsx scripts/write.ts",
+    "check": "tsx scripts/write.ts --check",
+    "make": "tsx scripts/make.ts",
+    "daily": "tsx scripts/daily.ts",
+    "post": "tsx scripts/post.ts",
+    "preview": "node scripts/capture.mjs preview",
+    "sounds": "node scripts/sounds.mjs",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "ajv": "8.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3"
+  },
+  "engines": { "node": ">=22" }
+}

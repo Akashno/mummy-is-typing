@@ -1,0 +1,7 @@
+[
+  { "id": "mummy-wins", "contact": "mummy", "weight": 3, "brief": "You try something (hide a purchase, skip a call, lie about eating, ask for money) and Mummy is already ahead of you. She gets the last word." },
+  { "id": "caught", "contact": "any", "weight": 2, "brief": "A parent or Didi catches you through a modern detail: online at 3am, Swiggy order, location sharing, Instagram story, UPI history, a tagged photo." },
+  { "id": "papa-replies", "contact": "papa", "weight": 2, "brief": "Papa answers in very few words and somehow wins the whole conversation." },
+  { "id": "nani-online", "contact": "nani", "weight": 1, "brief": "Nani discovers some part of the internet or her phone. Chaotic, loving, and she lands the last line." },
+  { "id": "didi", "contact": "didi", "weight": 1, "brief": "Didi pretends to help you and then betrays you, or the two of you team up against Mummy and lose anyway." }
+]
