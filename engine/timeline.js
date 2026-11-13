@@ -8,7 +8,8 @@
 //   react  an emoji reaction on the contact's last message
 //   pause  seconds to wait before this item (optional; sensible defaults otherwise)
 
-export const HOLD = 2.4 // seconds the last frame stays on screen
+export const HOLD = 2.4 // seconds the punchline stays on screen
+export const COVER = 1.4 // the cover card at the end (Instagram's cover frame is picked from it)
 const ENTER = 0.2 // message slide-in
 
 // small seeded random so typing speed varies but every render of the same chat is identical
@@ -18,7 +19,7 @@ function rng(seed) {
   return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 2 ** 32)
 }
 
-export function timeline(chat, { caption = false } = {}) {
+export function timeline(chat, { caption = false, cover = !!chat.cover } = {}) {
   const rand = rng(chat.title || JSON.stringify(chat.script))
   const msgs = [] // { who, text, at, first, sentTicks?, readAt?, react?: { text, at } }
   const typing = [] // [start, end] windows when the header says typing…
@@ -71,8 +72,12 @@ export function timeline(chat, { caption = false } = {}) {
 
   const end = msgs.at(-1)?.at ?? 0
   const captionAt = caption && chat.caption ? Math.max(t, end + ENTER) + 0.5 : null
-  const duration = Math.max(t, end + ENTER) + (captionAt ? 0.5 + 0.45 : 0) + HOLD
-  return { msgs, typing, input, cues, captionAt, duration }
+  const held = Math.max(t, end + ENTER) + (captionAt ? 0.5 + 0.45 : 0) + HOLD
+  const coverAt = cover ? held : null
+  const duration = held + (cover ? COVER : 0)
+  // the frame Instagram uses as the reel's cover, in ms (Buffer's thumbnailOffset)
+  const thumbMs = Math.round((coverAt != null ? coverAt + 0.7 : 1) * 1000)
+  return { msgs, typing, input, cues, captionAt, coverAt, thumbMs, duration }
 }
 
 // what a sent message's ticks show at time t

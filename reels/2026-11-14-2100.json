@@ -40,5 +40,9 @@
   "series": "her-things",
   "contact": "Mummy",
   "theme": "light",
-  "showCaption": false
+  "showCaption": false,
+  "cover": {
+    "headline": "Mummy washed my *hoodie",
+    "emoji": "🫠"
+  }
 }

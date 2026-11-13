@@ -4,6 +4,7 @@
 //   node scripts/capture.mjs check  reels/x.json                boot, print duration and cues, render every 0.25 s
 //   node scripts/capture.mjs cues   reels/x.json out/cues.json  write the sound cues and duration
 //   node scripts/capture.mjs sheet  reels/x.json out/x-sheet.jpg [step=1] [cols=8]   contact sheet
+//   node scripts/capture.mjs still  reels/x.json out/x-cover.jpg [t|cover]           one frame (default: the cover)
 //   node scripts/capture.mjs video  reels/x.json out/x-silent.mp4 [--draft]          the film, 30 fps, no audio
 //
 // CHROME=/path/to/chrome overrides the browser.
@@ -122,6 +123,13 @@ else {
       fs.writeFileSync(out, JSON.stringify({ duration: dur, cues: await P.ev('OP.cues()') }, null, 1))
       console.log(out)
     }
+    else if (mode === 'still') {
+      // one full-size JPEG; "cover" means the middle of the cover card
+      const out = path.resolve(rest[0] || 'out/still.jpg'); fs.mkdirSync(path.dirname(out), { recursive: true })
+      const at = rest[1] && rest[1] !== 'cover' ? +rest[1] : (await P.ev('OP.coverAt()')) + 0.7
+      fs.writeFileSync(out, await P.shot(at, 94))
+      console.log(`${out} (t=${at.toFixed(2)})`)
+    }
     else if (mode === 'sheet') {
       const out = path.resolve(rest[0] || 'out/sheet.jpg'), step = +(rest[1] || 1), cols = +(rest[2] || 8)
       const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'mit-sheet-')); let n = 0; fs.mkdirSync(path.dirname(out), { recursive: true })
@@ -145,7 +153,7 @@ else {
       ff.stdin.end(); await new Promise((r) => ff.on('close', r))
       console.log(`\r  ${out} (${n} frames, ${((Date.now() - t0) / 1000).toFixed(0)} s)`)
     }
-    else console.log('modes: preview · check · cues · sheet · video')
+    else console.log('modes: preview · check · cues · sheet · still · video')
   }
   finally { P.close(); srv.close() }
 }

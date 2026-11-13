@@ -53,5 +53,9 @@
   "series": "mummy-wins",
   "contact": "Mummy",
   "theme": "light",
-  "showCaption": false
+  "showCaption": false,
+  "cover": {
+    "headline": "Fake fever vs Mummy's *location",
+    "emoji": "📍"
+  }
 }

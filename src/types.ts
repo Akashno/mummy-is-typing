@@ -8,6 +8,7 @@ export interface Chat {
   clock: string
   script: Line[]
   caption: string
+  cover: { headline: string, emoji: string } // the end card, which is also Instagram's cover frame
   post: { caption: string, hashtags: string[], youtubeTitle: string }
 }
 

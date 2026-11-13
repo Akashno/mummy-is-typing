@@ -19,7 +19,7 @@
     "chat": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["title", "premise", "cast", "clock", "script", "caption", "post"],
+      "required": ["title", "premise", "cast", "clock", "script", "caption", "cover", "post"],
       "properties": {
         "title": { "type": "string", "maxLength": 60, "description": "Short internal name, e.g. 'The Amazon parcel'" },
         "premise": { "type": "string", "maxLength": 200, "description": "One sentence: the situation and the punchline, used to avoid repeats" },
@@ -34,6 +34,14 @@
               "text": { "type": "string", "maxLength": 120, "description": "The message exactly as typed. For react: one emoji." },
               "pause": { "type": "number", "minimum": 0, "maximum": 3, "description": "Optional extra seconds before this item, for comic timing (e.g. 1.2 before a deadpan 'Ok.')" }
             }
+          }
+        },
+        "cover": {
+          "type": "object", "additionalProperties": false, "required": ["headline", "emoji"],
+          "description": "The reel's cover (shown on the profile grid and as the end card). It sells the situation, never the punchline.",
+          "properties": {
+            "headline": { "type": "string", "maxLength": 40, "description": "3-7 words, first person or about Mummy, with exactly one *word (the key noun) that gets a green marker. E.g. 'Mummy found my *Swiggy order', 'I lied about *dinner', 'Mummy washed my *hoodie'." },
+            "emoji": { "type": "string", "maxLength": 8, "description": "One emoji that shows the feeling (😭 😳 💀 🫠), or a thing in the story (📦 📍 🧥)" }
           }
         },
         "caption": { "type": "string", "maxLength": 40, "description": "Optional end-card text, lowercase, 2-6 words. Usually not shown." },

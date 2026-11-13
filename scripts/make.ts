@@ -1,7 +1,7 @@
 // Renders a chat to an MP4: frames from engine/index.html (headless Chrome), message tones mixed at the
 // timeline's cues (ffmpeg). No Claude here.
 //
-//   npm run make -- reels/2026-11-14-1300.json      -> out/2026-11-14-1300.mp4 and a contact sheet
+//   npm run make -- reels/2026-11-14-1300.json      -> out/2026-11-14-1300.mp4, a contact sheet and the cover
 //   npm run make -- engine/sample.json --draft      fast, lower quality
 import { execFileSync, spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, rmSync } from 'node:fs'
@@ -45,6 +45,8 @@ export async function make(file: string, opts: { draft?: boolean } = {}): Promis
     execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', silent, ...inputs, '-filter_complex', mix, '-map', '0:v', '-map', '[aud]',
       '-c:v', 'copy', '-c:a', 'aac', '-b:a', '160k', '-t', duration.toFixed(3), '-movflags', '+faststart', mp4])
     run('node', ['scripts/capture.mjs', 'sheet', file, join(out, `${name}-sheet.jpg`), '1', '8'])
+    const chat = JSON.parse(readFileSync(file, 'utf8'))
+    if (chat.cover) run('node', ['scripts/capture.mjs', 'still', file, join(out, `${name}-cover.jpg`), 'cover'])
     rmSync(silent, { force: true })
 
     const got = Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', mp4]).toString().trim())

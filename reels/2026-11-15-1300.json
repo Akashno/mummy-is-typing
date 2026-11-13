@@ -45,5 +45,9 @@
   "series": "caught",
   "contact": "Mummy",
   "theme": "light",
-  "showCaption": false
+  "showCaption": false,
+  "cover": {
+    "headline": "I said *rajma. Mummy got my biryani",
+    "emoji": "😭"
+  }
 }

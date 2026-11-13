@@ -61,6 +61,12 @@ export function checkChat(x: unknown, series?: Series): string[] {
   if (emoji > 3) errors.push(`${emoji} emoji in the chat; use 3 at most, only where they show a feeling`)
   const dur = timeline({ title: c.title, script: c.script }).duration
   if (dur < 8 || dur > 24) errors.push(`the chat plays for ${dur.toFixed(1)}s; aim for 10-20s`)
+  const stars = (c.cover.headline.match(/\*/g) ?? []).length
+  if (stars !== 1) errors.push(`cover.headline needs exactly one *word for the green marker, not ${stars}`)
+  const hw = c.cover.headline.split(/\s+/).filter(Boolean).length
+  if (hw < 3 || hw > 8) errors.push(`cover.headline is ${hw} words; use 3-7`)
+  if ([...c.cover.emoji.matchAll(EMOJI)].length !== 1) errors.push(`cover.emoji must be exactly one emoji, not "${c.cover.emoji}"`)
+  if ([...c.cover.headline.matchAll(EMOJI)].length) errors.push('no emoji inside cover.headline; it goes in cover.emoji')
   if (/#/.test(c.post.caption)) errors.push('no hashtags in post.caption; they go in post.hashtags')
   if (!c.post.hashtags.some(h => h.toLowerCase() === BRAND.hashtag)) errors.push(`hashtags must include ${BRAND.hashtag}`)
   return errors
@@ -180,7 +186,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const arg = (n: string) => { const i = process.argv.indexOf(n); return i > 0 ? process.argv[i + 1] : undefined }
   if (process.argv.includes('--check')) {
     const r: Reel = JSON.parse(readFileSync(process.argv.at(-1)!, 'utf8'))
-    const errors = checkChat({ title: r.title, premise: r.premise, cast: r.cast, clock: r.clock, script: r.script, caption: r.caption, post: r.post }, SERIES.find(s => s.id === r.series))
+    const errors = checkChat({ title: r.title, premise: r.premise, cast: r.cast, clock: r.clock, script: r.script, caption: r.caption, cover: r.cover, post: r.post }, SERIES.find(s => s.id === r.series))
     console.log(errors.length ? `✗ ${errors.join('\n  ')}` : '✓ passes the checks')
     process.exit(errors.length ? 1 : 0)
   }

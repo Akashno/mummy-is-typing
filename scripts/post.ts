@@ -20,6 +20,7 @@ import { spawnSync } from 'node:child_process'
 import { join, resolve } from 'node:path'
 import { BRAND } from '../src/brand'
 import type { Reel } from '../src/types'
+import { timeline } from '../engine/timeline.js'
 
 const ROOT = resolve(import.meta.dirname, '..')
 // Where GitHub Pages serves the videos. PAGES_URL wins (the workflow passes the deployed URL);
@@ -100,7 +101,8 @@ export function postInput(ch: Channel, reel: Reel, url: string, dueAt: string) {
     dueAt,
     needsApproval: false,
     source: 'mummy-is-typing',
-    assets: [{ video: { url, metadata: { thumbnailOffset: 1200 } } }],
+    // the cover card at the end of the reel (engine/timeline.js); Buffer only takes a frame offset, not an image
+    assets: [{ video: { url, metadata: { thumbnailOffset: timeline(reel).thumbMs } } }],
   }
   switch (ch.service) {
     case 'instagram':

@@ -60,6 +60,10 @@ Her things:
 - me: mummy NO thats my new one 😭
 - them: Beta it suits me more.
 
+# The cover
+
+Every reel ends on a cover card, which is also the picture on the profile grid, so it decides whether a stranger taps. Write `cover.headline`: 3 to 7 words in the daughter's voice or about Mummy, that **sell the situation without giving away the punchline**, with exactly one `*word` (the key noun) that gets a green marker. Good: "Mummy found my *Swiggy order", "I lied about *dinner", "Mummy washed my *hoodie", "Fake fever vs Mummy's *location". Bad: "Mummy keeps the biryani" (spoils it), "You won't believe this" (empty clickbait). Then one `cover.emoji` for the feeling (😭 😳 💀 🫠) or the object (📦 📍 🧥).
+
 # What to return
 
 Write **five different premises** for today's series as complete chats, then rank them honestly, funniest first. Different premises means different situations, not five versions of one joke. Set `cast` to "mummy", and `clock` to a phone time that fits (late-night chats at night, "khana kha liya" around lunch).
