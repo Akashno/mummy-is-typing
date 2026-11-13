@@ -111,6 +111,18 @@ body{display:flex;flex-direction:column;align-items:center;justify-content:cente
 .cv-bubble{align-self:flex-start;max-width:86%;background:#fff;color:#111b21;border-radius:0 12px 12px 12px;padding:7px 11px 8px;font:15px/1.3 Roboto,"Noto Color Emoji",sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.18);transform:rotate(-1.5deg);position:relative;margin-left:8px}
 .cv-bubble::before{content:"";position:absolute;left:-8px;top:0;width:8px;height:12px;background:#fff;clip-path:polygon(0 0,100% 0,100% 100%)}
 .cv-bubble small{display:block;font-size:12px;font-weight:500;color:#00a884;margin-bottom:1px}
+
+/* ---------- outro (after the cover): follow + send it to your mumma, in the cover art's colours ---------- */
+.outro{position:absolute;inset:0;z-index:31;display:none;background:var(--paper);color:var(--ink);overflow:hidden}
+.outro .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.18;filter:blur(6px) saturate(1.1);transform:scale(1.1)}
+.ou{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:0 28px;text-align:center}
+.ou-av{width:116px;height:116px;border-radius:50%;padding:4px;background:conic-gradient(#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5,#feda75)}
+.ou-av img{width:100%;height:100%;border-radius:50%;border:4px solid var(--paper);object-fit:cover;display:block}
+.ou-handle{font:500 17px Roboto,sans-serif;opacity:.9}
+.ou-follow{font:500 17px Roboto,sans-serif;color:#fff;background:#0095f6;border-radius:10px;padding:11px 46px;margin-top:4px;box-shadow:0 6px 18px rgba(0,149,246,.35)}
+.ou-head{font-family:"DM Serif Display",Georgia,serif;font-size:36px;line-height:1.08;margin-top:14px}
+.ou-head b{font-family:Caveat,cursive;font-weight:700;color:var(--accent);font-size:1.3em;display:inline-block;transform:rotate(-3deg)}
+.ou-send{display:flex;align-items:center;gap:9px;font:500 16px Roboto,"Noto Color Emoji",sans-serif;background:rgba(255,255,255,.92);color:#111b21;border-radius:22px;padding:9px 16px;box-shadow:0 6px 18px rgba(0,0,0,.15)}
 </style>
 </head>
 <body>
@@ -150,6 +162,7 @@ body{display:flex;flex-direction:column;align-items:center;justify-content:cente
   <div class="kb" id="kb"></div>
   <div class="cap" id="cap"></div>
   <div class="cover" id="cover"></div>
+  <div class="outro" id="outro"></div>
 </div>
 <script type="module">
 import { timeline, ticks } from './timeline.js'
@@ -191,7 +204,7 @@ const clamp01 = (x) => Math.max(0, Math.min(1, x))
 const easeOut = (x) => 1 - (1 - clamp01(x)) ** 3
 const esc = (s) => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c])
 
-let chat, T, ART = [], opts = { dark: false, caption: false }
+let chat, T, ART = [], BRAND = {}, opts = { dark: false, caption: false }
 
 function rowHTML(m, t) {
   const big = onlyEmoji(m.text)
@@ -256,6 +269,19 @@ function render(t) {
     cv.style.transform = `scale(${1.04 - 0.04 * p})`
   }
   else cv.style.display = 'none'
+
+  const ou = $('outro')
+  if (T.outroAt != null && t >= T.outroAt) {
+    const e = t - T.outroAt, p = easeOut(e / 0.22)
+    ou.style.display = 'block'
+    ou.style.opacity = p
+    const pop = (d) => { const q = easeOut(clamp01((e - d) / 0.25)); return `opacity:${q};transform:translateY(${(1 - q) * 14}px)` }
+    ou.querySelectorAll('[data-d]').forEach(n => { n.style.cssText = pop(+n.dataset.d) })
+    // the Follow button gets a little tap at 0.9 s
+    const f = ou.querySelector('.ou-follow'), k = e - 0.9
+    if (k > 0 && k < 0.3) f.style.transform = `scale(${1 - 0.08 * Math.sin(Math.PI * k / 0.3)})`
+  }
+  else ou.style.display = 'none'
 }
 
 function setup() {
@@ -264,6 +290,7 @@ function setup() {
   $('clock').textContent = chat.clock
   T = timeline(chat, { caption: opts.caption })
   buildCover()
+  buildOutro()
 }
 
 const SERIES_LABEL = { 'mummy-wins': 'Mummy wins', 'caught': 'Caught', 'her-things': 'Her things', 'mummy-advice': 'Mummy advice', 'soft-mummy': 'Soft Mummy' }
@@ -282,6 +309,22 @@ function buildCover() {
       <div class="cv-kicker"><i></i><i></i><i></i>Mummy is typing…${chat.series && SERIES_LABEL[chat.series] ? ` · ${SERIES_LABEL[chat.series]}` : ''}</div>
       <div class="cv-head">${head}</div>
       <div class="cv-bubble"><small>${esc(chat.contact)}</small>${esc(hook)}</div>
+    </div>`
+  return Promise.all([...el.querySelectorAll('img')].map(i => i.decode().catch(() => {})))
+}
+
+function buildOutro() {
+  const el = $('outro')
+  if (!chat.cover) { el.innerHTML = ''; return }
+  const art = ART.find(a => a.id === chat.art) ?? ART[[...(chat.title || '')].reduce((n, c) => n + c.charCodeAt(0), 0) % ART.length]
+  for (const k of ['ink', 'accent', 'paper']) el.style.setProperty(`--${k}`, art[k])
+  el.innerHTML = `<img class="bg" src="../brand/art/${art.file}" alt="">
+    <div class="ou">
+      <div class="ou-av" data-d="0.05"><img src="../brand/avatar.png" alt=""></div>
+      <div class="ou-handle" data-d="0.15">${esc(BRAND.handle || '')}</div>
+      <div class="ou-follow" data-d="0.3">Follow for more</div>
+      <div class="ou-head" data-d="0.55">Mummy always <b>wins</b></div>
+      <div class="ou-send" data-d="0.75"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M22 3 9.2 10.1M22 3l-7 19-5.8-11.9L2 7.5Z"/></svg>send it to your mumma 💌</div>
     </div>`
   return Promise.all([...el.querySelectorAll('img')].map(i => i.decode().catch(() => {})))
 }
@@ -330,12 +373,14 @@ try {
   const file = Q.get('chat') || 'sample.json'
   chat = await (await fetch(file.startsWith('/') ? file : `${file.includes('/') ? '../' : ''}${file}`)).json()
   ART = await (await fetch('../brand/art.json')).json()
+  BRAND = await (await fetch('../brand/brand.json')).json()
   opts.dark = chat.theme === 'dark'
   opts.caption = !!chat.showCaption
   await document.fonts.ready
   await Promise.all([document.fonts.load('16px Roboto'), document.fonts.load('56px Anton'), document.fonts.load('16px "Noto Color Emoji"', '😂🙏')])
   setup(); fit(); addEventListener('resize', fit)
   await buildCover()
+  await buildOutro()
   await Promise.all([document.fonts.load('40px "DM Serif Display"'), document.fonts.load('700 40px Caveat')])
   Object.assign(window.OP, {
     duration: () => T.duration,

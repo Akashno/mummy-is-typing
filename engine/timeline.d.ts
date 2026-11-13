@@ -1,5 +1,6 @@
 export const HOLD: number
 export const COVER: number
+export const OUTRO: number
 export interface Timeline {
   msgs: Array<{ who: 'them' | 'me', text: string, at: number, first: boolean, readAt?: number, react?: { text: string, at: number } }>
   typing: Array<[number, number]>
@@ -7,6 +8,7 @@ export interface Timeline {
   cues: Array<{ t: number, kind: 'in' | 'out' }>
   captionAt: number | null
   coverAt: number | null
+  outroAt: number | null
   thumbMs: number
   duration: number
 }

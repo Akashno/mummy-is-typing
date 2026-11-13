@@ -9,7 +9,8 @@
 //   pause  seconds to wait before this item (optional; sensible defaults otherwise)
 
 export const HOLD = 2.4 // seconds the punchline stays on screen
-export const COVER = 1.4 // the cover card at the end (Instagram's cover frame is picked from it)
+export const COVER = 1.4 // the cover card near the end (Instagram's cover frame is picked from it)
+export const OUTRO = 2.2 // the follow / send-it-to-your-mumma card after the cover
 const ENTER = 0.2 // message slide-in
 
 // small seeded random so typing speed varies but every render of the same chat is identical
@@ -74,10 +75,11 @@ export function timeline(chat, { caption = false, cover = !!chat.cover } = {}) {
   const captionAt = caption && chat.caption ? Math.max(t, end + ENTER) + 0.5 : null
   const held = Math.max(t, end + ENTER) + (captionAt ? 0.5 + 0.45 : 0) + HOLD
   const coverAt = cover ? held : null
-  const duration = held + (cover ? COVER : 0)
+  const outroAt = cover ? held + COVER : null
+  const duration = held + (cover ? COVER + OUTRO : 0)
   // the frame Instagram uses as the reel's cover, in ms (Buffer's thumbnailOffset)
   const thumbMs = Math.round((coverAt != null ? coverAt + 0.7 : 1) * 1000)
-  return { msgs, typing, input, cues, captionAt, coverAt, thumbMs, duration }
+  return { msgs, typing, input, cues, captionAt, coverAt, outroAt, thumbMs, duration }
 }
 
 // what a sent message's ticks show at time t
