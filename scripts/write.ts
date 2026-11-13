@@ -22,7 +22,7 @@ const read = (p: string) => readFileSync(join(ROOT, p), 'utf8')
 const MODEL = process.env.CLAUDE_MODEL ?? 'sonnet'
 const TRIES = 2
 
-export interface HistoryEntry { date: string, title: string, series: string, premise: string, status: 'test' | 'rendered' | 'posted' | 'failed' }
+export interface HistoryEntry { date: string, title: string, series: string, premise: string, art?: string, status: 'test' | 'rendered' | 'posted' | 'failed' }
 export const HISTORY = join(ROOT, 'data/history.json')
 export const loadHistory = (): HistoryEntry[] => (existsSync(HISTORY) ? JSON.parse(readFileSync(HISTORY, 'utf8')) : [])
 
@@ -125,11 +125,19 @@ function askClaude(prompt: string): { out?: { candidates: Chat[], ranking: numbe
   return { out: out.structured_output, tokens: `${n('input_tokens') + n('cache_creation_input_tokens') + n('cache_read_input_tokens') + n('output_tokens')} tokens, ${Math.round((out.duration_ms ?? 0) / 1000)}s` }
 }
 
-export function toReel(c: Chat, series: string): Reel {
+// the cover illustration used longest ago (brand/art.json), so the grid never shows the same picture twice in a row
+export function pickArt(history: HistoryEntry[]) {
+  const art: Array<{ id: string }> = JSON.parse(read('brand/art.json'))
+  const last = (id: string) => history.filter(h => h.art === id).map(h => h.date).at(-1) ?? ''
+  return [...art].sort((a, b) => last(a.id).localeCompare(last(b.id)))[0].id
+}
+
+export function toReel(c: Chat, series: string, art: string): Reel {
   const h = Number(c.clock.slice(0, 2))
   return {
     ...c,
     series,
+    art,
     contact: CAST.find(p => p.id === c.cast)!.contact,
     theme: h >= 22 || h < 6 ? 'dark' : 'light', // late-night chats in dark mode, like a real phone
     showCaption: false,
@@ -160,7 +168,7 @@ export async function write(date: string, opts: { series?: string } = {}): Promi
       const errs = [...checkChat(c, s), ...noveltyErrors(c, history)]
       console.log(`    #${i} "${c.title}"${errs.length ? `: rejected (${errs.join('; ')})` : ': kept'}`)
       if (!errs.length) {
-        const reel = toReel(c, s.id)
+        const reel = toReel(c, s.id, pickArt(history))
         mkdirSync(join(ROOT, 'reels'), { recursive: true })
         const file = join(ROOT, 'reels', `${date}.json`)
         writeFileSync(file, `${JSON.stringify(reel, null, 2)}\n`)
@@ -176,7 +184,7 @@ export async function write(date: string, opts: { series?: string } = {}): Promi
 
 export function record(date: string, r: Reel, status: HistoryEntry['status']) {
   const history = loadHistory().filter(h => h.date !== date)
-  history.push({ date, title: r.title, series: r.series, premise: r.premise, status })
+  history.push({ date, title: r.title, series: r.series, premise: r.premise, art: r.art, status })
   history.sort((a, b) => a.date.localeCompare(b.date))
   mkdirSync(join(ROOT, 'data'), { recursive: true })
   writeFileSync(HISTORY, `${JSON.stringify(history, null, 2)}\n`)

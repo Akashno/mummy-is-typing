@@ -47,7 +47,8 @@
   "theme": "light",
   "showCaption": false,
   "cover": {
-    "headline": "I said *rajma. Mummy got my biryani",
+    "headline": "I said rajma. Mummy got my *biryani",
     "emoji": "😭"
-  }
+  },
+  "art": "green-hug"
 }

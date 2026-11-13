@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mummy is typing… renderer</title>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;500&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&family=DM+Serif+Display:ital@0;1&family=Roboto:wght@400;500&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
 <!-- The reel renderer. Opened by scripts/capture.mjs (headless, ?capture=1, one frame per OP.render(t))
      and by `npm run preview` (plays in real time with sound). The timing lives in timeline.js. -->
 <style>
@@ -95,31 +95,22 @@ body{display:flex;flex-direction:column;align-items:center;justify-content:cente
 .cap{position:absolute;left:18px;right:18px;top:40%;text-align:center;font-family:Anton,sans-serif;font-size:38px;line-height:1.05;text-transform:uppercase;color:#fff;-webkit-text-stroke:2px #000;paint-order:stroke fill;text-shadow:0 4px 0 #000;z-index:8;opacity:0;pointer-events:none}
 
 
-/* ---------- cover card (end of the reel; Instagram's cover frame). Laid out in phone units, inside the
-   3:4 area Instagram's profile grid shows (y 92-640), so nothing important is cropped. ---------- */
-.cover{position:absolute;inset:0;z-index:30;display:none;color:#fff;overflow:hidden;
-  background:radial-gradient(130% 70% at 85% 8%,#1c8a6f 0%,rgba(28,138,111,0) 55%),radial-gradient(120% 60% at 0% 100%,#0e4f43 0%,rgba(14,79,67,0) 60%),#08131a}
-.cover::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1.2px,transparent 1.3px);background-size:18px 18px}
-.cv{position:absolute;left:22px;right:22px;top:100px;bottom:112px;display:flex;flex-direction:column;gap:14px}
-.cv-top{display:flex;justify-content:space-between;align-items:center}
-.cv-brand{display:flex;align-items:center;gap:7px;font:500 12.5px Roboto,sans-serif;letter-spacing:.3px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);padding:5px 11px 5px 9px;border-radius:99px}
-.cv-brand i{width:5px;height:5px;border-radius:50%;background:#25d366;display:inline-block;margin-right:-4px}
-.cv-brand i:nth-child(2){opacity:.7}.cv-brand i:nth-child(3){opacity:.4;margin-right:2px}
-.cv-series{font:700 11.5px Roboto,sans-serif;letter-spacing:1.2px;text-transform:uppercase;background:#25d366;color:#06281e;padding:5px 10px;border-radius:6px}
-.cv-head{position:relative;font-family:Anton,"Noto Color Emoji",sans-serif;font-size:58px;line-height:1.06;text-transform:uppercase;letter-spacing:.3px;margin-top:4px;text-shadow:0 3px 0 rgba(0,0,0,.25)}
-.cv-head b{font-weight:400;color:#06281e;padding:0 8px;margin:0 -2px;background:linear-gradient(#25d366,#25d366) 0 58%/100% 86% no-repeat;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:none}
-.cv-emoji{display:inline-block;margin-left:8px;font-size:50px;line-height:0;vertical-align:-4px;transform:rotate(10deg);filter:drop-shadow(0 6px 10px rgba(0,0,0,.45));font-family:"Noto Color Emoji"}
-.cv-card{margin-top:auto;background:#efeae2;border-radius:20px;padding:12px 12px 14px;box-shadow:0 18px 40px rgba(0,0,0,.45);transform:rotate(-2.2deg);color:#111b21;font-family:Roboto,"Noto Color Emoji",sans-serif}
-.cv-who{display:flex;align-items:center;gap:9px;padding:2px 4px 10px}
-.cv-who .av{width:34px;height:34px;border-radius:50%;background:#dfe5e7;display:grid;place-items:end center;overflow:hidden}
-.cv-who b{display:block;font-weight:500;font-size:16px;line-height:1.1}
-.cv-who span{font-size:13px;color:#00a884}
-.cv-b{max-width:88%;padding:8px 12px 9px;border-radius:12px;font-size:19.5px;line-height:1.25;box-shadow:0 1px .5px rgba(11,20,26,.13);margin-top:7px;width:fit-content}
-.cv-b.them{background:#fff;border-top-left-radius:0}
-.cv-b.me{background:#d9fdd3;margin-left:auto;border-top-right-radius:0}
-.cv-dots{background:#fff;border-radius:16px;padding:12px 14px;display:flex;gap:6px;width:fit-content;margin-top:7px}
-.cv-dots i{width:9px;height:9px;border-radius:50%;background:#8696a0}
-.cv-dots i:nth-child(2){opacity:.7}.cv-dots i:nth-child(3){opacity:.45}
+/* ---------- cover card (end of the reel; Instagram's cover frame). An illustration from brand/art/ with its
+   own colours (brand/art.json). Text stays inside the 3:4 area Instagram's profile grid shows (y 92-640). ---------- */
+.cover{position:absolute;inset:0;z-index:30;display:none;overflow:hidden;background:var(--paper)}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cover img.bottom{inset:auto 0 0 0;height:auto;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 12%);mask-image:linear-gradient(180deg,transparent 0,#000 12%)}
+.cover .scrim{position:absolute;inset:0}
+.cv{position:absolute;left:26px;right:26px;display:flex;flex-direction:column;gap:12px;color:var(--ink)}
+.cv.top{top:104px}.cv.bottom{bottom:108px}
+.cv-kicker{font:500 11px Roboto,sans-serif;letter-spacing:2.2px;text-transform:uppercase;opacity:.85;display:flex;align-items:center;gap:8px}
+.cv-kicker i{width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:-5px}
+.cv-kicker i:nth-child(2){opacity:.7}.cv-kicker i:nth-child(3){opacity:.4;margin-right:3px}
+.cv-head{font-family:"DM Serif Display",Georgia,serif;font-size:40px;line-height:1.08;letter-spacing:-.3px;text-wrap:balance}
+.cv-head b{font-family:Caveat,cursive;font-weight:700;color:var(--accent);font-size:1.3em;line-height:.8;display:inline-block;transform:rotate(-3deg) translateY(2px);padding:0 2px}
+.cv-bubble{align-self:flex-start;max-width:86%;background:#fff;color:#111b21;border-radius:0 12px 12px 12px;padding:7px 11px 8px;font:15px/1.3 Roboto,"Noto Color Emoji",sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.18);transform:rotate(-1.5deg);position:relative;margin-left:8px}
+.cv-bubble::before{content:"";position:absolute;left:-8px;top:0;width:8px;height:12px;background:#fff;clip-path:polygon(0 0,100% 0,100% 100%)}
+.cv-bubble small{display:block;font-size:12px;font-weight:500;color:#00a884;margin-bottom:1px}
 </style>
 </head>
 <body>
@@ -200,7 +191,7 @@ const clamp01 = (x) => Math.max(0, Math.min(1, x))
 const easeOut = (x) => 1 - (1 - clamp01(x)) ** 3
 const esc = (s) => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c])
 
-let chat, T, opts = { dark: false, caption: false }
+let chat, T, ART = [], opts = { dark: false, caption: false }
 
 function rowHTML(m, t) {
   const big = onlyEmoji(m.text)
@@ -280,20 +271,19 @@ const AVATAR = '<svg width="34" height="34" viewBox="0 0 40 40"><circle cx="20" 
 function buildCover() {
   const el = $('cover')
   if (!chat.cover) { el.innerHTML = ''; return }
-  // *word in the headline gets the green marker
+  const art = ART.find(a => a.id === chat.art) ?? ART[[...(chat.title || '')].reduce((n, c) => n + c.charCodeAt(0), 0) % ART.length]
+  for (const k of ['ink', 'accent', 'paper']) el.style.setProperty(`--${k}`, art[k])
+  // *word in the headline is written by hand in the accent colour
   const head = esc(chat.cover.headline).replace(/\*([^\s*]+)/g, '<b>$1</b>')
   const hook = chat.script[0]?.text ?? ''
-  const reply = chat.script.find(l => l.who === 'me')?.text
-  el.innerHTML = `<div class="cv">
-    <div class="cv-top"><span class="cv-brand"><i></i><i></i><i></i>Mummy is typing…</span>${chat.series ? `<span class="cv-series">${SERIES_LABEL[chat.series] ?? esc(chat.series)}</span>` : ''}</div>
-    <div class="cv-head">${head}${chat.cover.emoji ? `<span class="cv-emoji">${esc(chat.cover.emoji)}</span>` : ''}</div>
-    <div class="cv-card">
-      <div class="cv-who"><span class="av">${AVATAR}</span><span><b>${esc(chat.contact)}</b><span>typing…</span></span></div>
-      <div class="cv-b them">${esc(hook)}</div>
-      ${reply ? `<div class="cv-b me">${esc(reply)}</div>` : ''}
-      <div class="cv-dots"><i></i><i></i><i></i></div>
-    </div>
-  </div>`
+  el.innerHTML = `<img src="../brand/art/${art.file}" class="${art.fit === 'bottom' ? 'bottom' : ''}" style="object-position:${art.focus}" alt="">
+    <div class="scrim" style="background:${art.scrim}"></div>
+    <div class="cv ${art.area}">
+      <div class="cv-kicker"><i></i><i></i><i></i>Mummy is typing…${chat.series && SERIES_LABEL[chat.series] ? ` · ${SERIES_LABEL[chat.series]}` : ''}</div>
+      <div class="cv-head">${head}</div>
+      <div class="cv-bubble"><small>${esc(chat.contact)}</small>${esc(hook)}</div>
+    </div>`
+  return Promise.all([...el.querySelectorAll('img')].map(i => i.decode().catch(() => {})))
 }
 
 function fit() {
@@ -339,11 +329,14 @@ window.OP = { ready: false }
 try {
   const file = Q.get('chat') || 'sample.json'
   chat = await (await fetch(file.startsWith('/') ? file : `${file.includes('/') ? '../' : ''}${file}`)).json()
+  ART = await (await fetch('../brand/art.json')).json()
   opts.dark = chat.theme === 'dark'
   opts.caption = !!chat.showCaption
   await document.fonts.ready
   await Promise.all([document.fonts.load('16px Roboto'), document.fonts.load('56px Anton'), document.fonts.load('16px "Noto Color Emoji"', '😂🙏')])
   setup(); fit(); addEventListener('resize', fit)
+  await buildCover()
+  await Promise.all([document.fonts.load('40px "DM Serif Display"'), document.fonts.load('700 40px Caveat')])
   Object.assign(window.OP, {
     duration: () => T.duration,
     coverAt: () => T.coverAt,

@@ -14,6 +14,7 @@ export interface Chat {
 
 export interface Reel extends Chat {
   series: string
+  art: string // cover illustration id from brand/art.json
   contact: string // the name shown in the chat header
   theme: 'light' | 'dark'
   showCaption: boolean

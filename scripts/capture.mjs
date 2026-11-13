@@ -22,7 +22,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 const args = process.argv.slice(2), flags = new Set(args.filter((a) => a.startsWith('--')))
 const [mode, chatFile, ...rest] = args.filter((a) => !a.startsWith('--'))
 
-const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json', '.wav': 'audio/wav', '.mp3': 'audio/mpeg' }
+const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json', '.wav': 'audio/wav', '.mp3': 'audio/mpeg', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg' }
 function serve(port = 0) {
   return new Promise((res) => {
     const srv = http.createServer((req, r) => {

@@ -1,0 +1,43 @@
+[
+  {
+    "id": "sage-hug",
+    "file": "sage-hug.webp",
+    "focus": "38% 50%",
+    "area": "top",
+    "ink": "#3b2a1f",
+    "accent": "#5d7b4f",
+    "paper": "#d3b696",
+    "scrim": "linear-gradient(180deg, rgba(216,200,180,0) 0%, rgba(216,200,180,0) 100%)",
+    "fit": "bottom"
+  },
+  {
+    "id": "green-hug",
+    "file": "green-hug.webp",
+    "focus": "50% 40%",
+    "area": "bottom",
+    "ink": "#fff8ec",
+    "accent": "#ffd27a",
+    "paper": "#123326",
+    "scrim": "linear-gradient(180deg, rgba(18,51,38,0) 42%, rgba(18,51,38,.82) 66%, #123326 88%)"
+  },
+  {
+    "id": "balcony",
+    "file": "balcony.webp",
+    "focus": "50% 60%",
+    "area": "top",
+    "ink": "#fdf3e3",
+    "accent": "#ffc2cf",
+    "paper": "#173f3c",
+    "scrim": "linear-gradient(180deg, #173f3c 0%, rgba(23,63,60,.88) 28%, rgba(23,63,60,0) 52%)"
+  },
+  {
+    "id": "parchment",
+    "file": "parchment.webp",
+    "focus": "68% 50%",
+    "area": "top",
+    "ink": "#6e1b26",
+    "accent": "#b5531f",
+    "paper": "#ecd9a8",
+    "scrim": "linear-gradient(180deg, rgba(236,217,168,.85) 0%, rgba(236,217,168,0) 45%)"
+  }
+]

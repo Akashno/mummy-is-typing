@@ -21,6 +21,8 @@ flowchart LR
 - `prompts/writer.md`: the rules Claude writes by, above all the anti-cringe and emoji rules.
 - `scripts/write.ts`: the Claude call and the checks (message count, emoji, banned tropes, length, repeats).
 - `engine/index.html` + `engine/timeline.js`: the WhatsApp screen and its timing.
+- `brand/art/` + `brand/art.json`: the cover illustrations and each one's colours, text position and fade. Each reel
+  uses the picture that has gone longest unused. Only use art you made or have the rights to.
 - `engine/sounds/`: lookalike tones made by `npm run sounds`. Put your own `send.mp3` and `receive.mp3` in
   `brand/sounds/` to use those instead.
 
