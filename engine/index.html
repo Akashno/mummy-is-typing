@@ -28,9 +28,19 @@ body{display:flex;flex-direction:column;align-items:center;justify-content:cente
   --kb:#1f2022;--key:#3c3d40;--fkey:#2c2d30;--kink:#e3e3e3;--accent:#a8c7fa}
 .wall{position:absolute;inset:0;background-color:var(--wall);background-image:radial-gradient(var(--dots) 1.2px,transparent 1.3px),radial-gradient(var(--dots) 1.2px,transparent 1.3px);background-size:26px 26px;background-position:0 0,13px 13px}
 
+/* ---------- Instagram safe frame: the WhatsApp screen sits as a card inside the reel. Instagram's top bar and the
+   viewer's own status bar/notch get the brand band (no fake status bar), 20px sides survive the crop on tall
+   screens, and the keyboard is filler under the caption and buttons. The input bar ends at ~50% of the height. */
+.phone{background:#123326}
+.band{position:absolute;top:0;left:0;right:0;height:64px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px;font:500 11px Roboto,sans-serif;letter-spacing:2.2px;text-transform:uppercase;color:#fff8ec;opacity:.85}
+.app{position:absolute;left:20px;right:20px;top:64px;bottom:0;overflow:hidden;border-radius:20px 20px 0 0;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.app .status{display:none}
+.safe{position:absolute;inset:0;z-index:50;pointer-events:none;display:none}
+.safe i{position:absolute;background:rgba(229,72,77,.28);outline:1px dashed #e5484d}
+.show-safe .safe{display:block}
 .status{position:absolute;top:0;left:0;right:0;height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 18px 0 22px;font-size:14px;font-weight:500;background:var(--head);color:var(--headink);z-index:6}
 .status .ic{display:flex;gap:6px;align-items:center}
-.head{position:absolute;top:30px;left:0;right:0;height:60px;background:var(--head);color:var(--headink);display:flex;align-items:center;padding:0 6px 0 4px;z-index:5;box-shadow:0 1px 0 var(--shadow)}
+.head{position:absolute;top:0;left:0;right:0;height:60px;background:var(--head);color:var(--headink);display:flex;align-items:center;padding:0 6px 0 4px;z-index:5;box-shadow:0 1px 0 var(--shadow)}
 .head .back{width:36px;display:grid;place-items:center}
 .head .av{width:40px;height:40px;border-radius:50%;background:#dfe5e7;overflow:hidden;flex:none;display:grid;place-items:end center}
 .dark .head .av{background:#6b7c85}
@@ -40,7 +50,7 @@ body{display:flex;flex-direction:column;align-items:center;justify-content:cente
 .head .st.typing{color:var(--green)}
 .head .acts{display:flex;gap:20px;padding-right:10px;align-items:center}
 
-.view{position:absolute;top:90px;left:0;right:0;bottom:362px;overflow:hidden}
+.view{position:absolute;top:60px;left:0;right:0;bottom:362px;overflow:hidden}
 .list{position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;padding:0 14px 6px}
 .chip{align-self:center;background:var(--chip);color:var(--chipink);font-size:12.5px;padding:5px 12px;border-radius:8px;box-shadow:0 1px .5px var(--shadow);margin:10px 0 8px;text-transform:uppercase;letter-spacing:.2px}
 .e2e{align-self:center;max-width:88%;text-align:center;background:#ffeecd;color:#54656f;font-size:12.5px;line-height:1.35;padding:6px 10px;border-radius:8px;margin-top:8px;box-shadow:0 1px .5px var(--shadow)}
@@ -128,6 +138,8 @@ body{display:flex;flex-direction:column;align-items:center;justify-content:cente
 <body>
 <div class="controls"><button id="replay">↻ Replay</button><button id="theme">Dark mode</button><button id="capt">End caption</button><button id="snd" class="on">Sound on</button><span id="note"></span></div>
 <div class="phone" id="phone">
+  <div class="band">Mummy is typing…</div>
+  <div class="app">
   <div class="wall"></div>
   <div class="view"><div class="list" id="list"></div></div>
   <div class="status"><span id="clock">21:41</span><span class="ic">
@@ -160,15 +172,18 @@ body{display:flex;flex-direction:column;align-items:center;justify-content:cente
     </div>
   </div>
   <div class="kb" id="kb"></div>
+  </div>
   <div class="cap" id="cap"></div>
   <div class="cover" id="cover"></div>
   <div class="outro" id="outro"></div>
+  <div class="safe"><i style="left:0;right:0;top:0;height:11.46%"></i><i style="left:0;right:0;bottom:0;height:23.44%"></i><i style="left:0;top:11.46%;bottom:23.44%;width:5.56%"></i><i style="right:0;top:40%;bottom:23.44%;width:13%"></i></div>
 </div>
 <script type="module">
 import { timeline, ticks } from './timeline.js'
 
 const Q = new URLSearchParams(location.search)
 const CAPTURE = Q.has('capture')
+if (Q.has('safe')) document.getElementById('phone').classList.add('show-safe') // ?safe=1 shows what Instagram covers
 const $ = (id) => document.getElementById(id)
 const phone = $('phone'), list = $('list'), field = $('field'), typed = $('typed'), cap = $('cap'), st = $('st')
 if (CAPTURE) document.body.classList.add('capture');
