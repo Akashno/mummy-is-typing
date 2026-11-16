@@ -1,0 +1,54 @@
+{
+  "title": "The unread call",
+  "premise": "Daughter ignores Mummy's calls and says she was in a meeting; Mummy says she saw her 'last seen' and Instagram story posted 2 minutes ago.",
+  "cast": "mummy",
+  "clock": "21:20",
+  "script": [
+    {
+      "who": "them",
+      "text": "Called you 4 times."
+    },
+    {
+      "who": "me",
+      "text": "mummaa sorry was in a meeting"
+    },
+    {
+      "who": "them",
+      "pause": 1.2,
+      "text": "Ok."
+    },
+    {
+      "who": "them",
+      "text": "Which meeting posts a story of Maggi."
+    },
+    {
+      "who": "me",
+      "text": "its a working maggi 😭"
+    },
+    {
+      "who": "them",
+      "pause": 1.5,
+      "text": "Then work. I will call again."
+    }
+  ],
+  "caption": "working maggi",
+  "cover": {
+    "headline": "My *meeting had Maggi",
+    "emoji": "💀"
+  },
+  "post": {
+    "caption": "Mummy watches your stories more than you do. Send this to someone who has a meeting at 9pm.",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#relatable",
+      "#motherdaughter"
+    ],
+    "youtubeTitle": "Missed Mummy's calls and posted a story"
+  },
+  "series": "mummy-wins",
+  "art": "parchment",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false
+}
