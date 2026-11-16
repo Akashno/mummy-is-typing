@@ -22,5 +22,13 @@
     "premise": "Daughter says she's at home cooking; Mummy, who is at home, says the Swiggy delivery guy just called her because the address is Mummy's.",
     "art": "green-hug",
     "status": "posted"
+  },
+  {
+    "date": "2026-11-16-1300",
+    "title": "The turmeric stain",
+    "series": "mummy-advice",
+    "premise": "Daughter panics about a haldi stain on her white kurta; Mummy gives a remedy, then says it's the old Diwali stain because she wore that kurta.",
+    "art": "balcony",
+    "status": "rendered"
   }
 ]
