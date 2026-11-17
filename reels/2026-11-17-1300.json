@@ -1,0 +1,54 @@
+{
+  "title": "The cold dinner",
+  "premise": "Daughter skips dinner for a deadline and says she'll just sleep; Mummy says Ok, then reveals paneer is already arriving at her PG, paid.",
+  "cast": "mummy",
+  "clock": "21:15",
+  "script": [
+    {
+      "who": "them",
+      "text": "Did you eat dinner."
+    },
+    {
+      "who": "me",
+      "text": "not yet mumma, deadline"
+    },
+    {
+      "who": "me",
+      "text": "will just sleep"
+    },
+    {
+      "who": "them",
+      "pause": 1.2,
+      "text": "Ok."
+    },
+    {
+      "who": "them",
+      "text": "Then who will eat the paneer arriving at your PG in 5 minutes."
+    },
+    {
+      "who": "them",
+      "pause": 1,
+      "text": "Paid. Don't tell Papa I used his card."
+    }
+  ],
+  "caption": "mummy paid already",
+  "cover": {
+    "headline": "I skipped *dinner. Mummy noticed.",
+    "emoji": "🥺"
+  },
+  "post": {
+    "caption": "She said ok and then ordered paneer. Send this to your mumma who never lets you sleep hungry.",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#indianmom",
+      "#motherdaughter"
+    ],
+    "youtubeTitle": "Mummy knew I skipped dinner"
+  },
+  "series": "soft-mummy",
+  "art": "sage-hug",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false
+}
