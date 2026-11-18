@@ -1,0 +1,54 @@
+{
+  "title": "The tagged photo",
+  "premise": "Daughter says she stayed in studying; Mummy says a cousin tagged her at a cafe, and Mummy has already liked the photo.",
+  "cast": "mummy",
+  "clock": "21:10",
+  "script": [
+    {
+      "who": "them",
+      "text": "How was the library today."
+    },
+    {
+      "who": "me",
+      "text": "so good mumma, studied till 8"
+    },
+    {
+      "who": "them",
+      "pause": 1.2,
+      "text": "Ok."
+    },
+    {
+      "who": "them",
+      "text": "Riya tagged you in a photo."
+    },
+    {
+      "who": "me",
+      "text": "what photo 😭"
+    },
+    {
+      "who": "them",
+      "pause": 1.3,
+      "text": "The one with the cold coffee. I liked it."
+    }
+  ],
+  "caption": "mummy already liked it",
+  "cover": {
+    "headline": "Mummy saw the *tag",
+    "emoji": "😳"
+  },
+  "post": {
+    "caption": "The like is what kills me. Send this to your mumma before she sees your tags.",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#indianmom",
+      "#motherdaughter"
+    ],
+    "youtubeTitle": "When Mummy sees the tagged photo"
+  },
+  "series": "caught",
+  "art": "balcony",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false
+}
