@@ -77,6 +77,22 @@ body{display:flex;flex-direction:column;align-items:center;justify-content:cente
 .them .react{left:8px}.me .react{right:8px}
 .row.reacted{margin-bottom:16px}
 
+
+/* messy, real WhatsApp bits */
+.b .fwd{display:flex;align-items:center;gap:4px;font-size:12.5px;font-style:italic;color:var(--meta);margin:-1px 0 2px}
+.b.k-voice{display:flex;flex-direction:column;min-width:240px;padding:8px 10px 18px}
+.voice{display:flex;align-items:center;gap:8px;color:var(--sub)}
+.vplay{width:28px;display:grid;place-items:center;color:var(--icon)}
+.vwave{flex:1;display:flex;align-items:center;gap:2px;height:26px}
+.vwave i{flex:1;max-width:3px;border-radius:2px;background:var(--sub);opacity:.75}
+.me .vwave i{background:#5aa98f}
+.vlen{position:absolute;left:46px;bottom:4px;font-size:11px;color:var(--meta)}
+.b.k-missed-call{padding:8px 12px 9px 9px}
+.missed{display:flex;align-items:center;gap:10px}
+.mic-r{width:36px;height:36px;border-radius:50%;background:#f15c6d;display:grid;place-items:center;flex:none}
+.missed b{display:block;font-weight:500;font-size:15.5px}
+.missed small{display:block;font-size:12.5px;color:var(--meta);margin-top:1px;padding-right:44px}
+.del{display:inline-flex;align-items:center;gap:5px;font-style:italic;color:var(--meta);font-size:15px}
 /* input bar */
 .bar{position:absolute;left:0;right:0;bottom:300px;height:62px;display:flex;align-items:center;gap:6px;padding:0 6px 4px;z-index:4}
 .field{flex:1;height:48px;border-radius:24px;background:var(--field);display:flex;align-items:center;padding:0 12px 0 10px;gap:10px;box-shadow:0 1px .5px var(--shadow);color:var(--icon);min-width:0}
@@ -221,19 +237,43 @@ const esc = (s) => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '
 
 let chat, T, ART = [], BRAND = {}, opts = { dark: false, caption: false }
 
+const ICON = {
+  play: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12-7.5Z"/></svg>',
+  missed: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5a12 12 0 0 1 16 0l-1.8 2.2a1.2 1.2 0 0 1-1.6.2l-1.8-1.3a1.2 1.2 0 0 1-.5-1v-1.4a10 10 0 0 0-4.6 0v1.4a1.2 1.2 0 0 1-.5 1l-1.8 1.3a1.2 1.2 0 0 1-1.6-.2Z"/><path d="m9 16 3 3 3-3"/></svg>',
+  deleted: '<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6.3"/><path d="m3.6 3.6 8.8 8.8"/></svg>',
+  fwd: '<svg width="14" height="12" viewBox="0 0 16 13" fill="currentColor"><path d="M9.5 0 16 5.8l-6.5 5.8V8.2C5 8.2 2.1 9.6 0 13c.6-4.8 3.4-8.7 9.5-9.4Z"/></svg>',
+}
+// a stable, natural-looking waveform for a voice note
+function wave(seed) {
+  let x = [...seed].reduce((n, c) => n * 31 + c.charCodeAt(0) >>> 0, 7)
+  return Array.from({ length: 30 }, () => { x = (x * 1664525 + 1013904223) >>> 0; return 4 + Math.round((x / 2 ** 32) ** 1.6 * 18) })
+    .map(h => `<i style="height:${h}px"></i>`).join('')
+}
+
 function rowHTML(m, t) {
-  const big = onlyEmoji(m.text)
-  const tk = m.who === 'me' ? ticks(m, t) : null
-  const meta = `<span class="meta"><span>${chat.clock}</span>${tk ? `<span class="tk" style="${tk === 'read' ? 'color:var(--tick)' : ''}">${TICK[tk === 'read' ? 'two' : tk]}</span>` : ''}</span>`
+  const deleted = m.kind === 'deleted' || (m.deletedAt != null && t >= m.deletedAt)
+  const kind = deleted ? 'deleted' : m.kind
+  const big = kind === 'text' && onlyEmoji(m.text)
+  const tk = m.who === 'me' && !deleted ? ticks(m, t) : null
+  const meta = `<span class="meta"><span>${m.clock}</span>${tk ? `<span class="tk" style="${tk === 'read' ? 'color:var(--tick)' : ''}">${TICK[tk === 'read' ? 'two' : tk]}</span>` : ''}</span>`
   const reacted = m.react && t >= m.react.at
   const react = reacted ? `<span class="react" data-at="${m.react.at}">${esc(m.react.text)}</span>` : ''
-  return `<div class="row ${m.who}${m.first ? ' first' : ''}${reacted ? ' reacted' : ''}" data-at="${m.at}"><div class="b${big ? ' big' : ''}">${esc(m.text)}<span class="sp" style="--mw:${m.who === 'me' ? 62 : 40}px"></span>${meta}${react}</div></div>`
+  const fwd = m.forwarded && kind === 'text' ? `<span class="fwd">${ICON.fwd} Forwarded</span>` : ''
+  let body
+  if (kind === 'voice') body = `<span class="voice"><span class="vplay">${ICON.play}</span><span class="vwave">${wave(m.text + m.at)}</span></span><span class="vlen">${esc(m.text)}</span>`
+  else if (kind === 'missed-call') body = `<span class="missed"><span class="mic-r">${ICON.missed}</span><span><b>Missed voice call</b><small>Tap to call back</small></span></span>`
+  else if (kind === 'deleted') body = `<span class="del">${ICON.deleted} ${m.who === 'me' ? 'You deleted this message' : 'This message was deleted'}</span>`
+  else body = esc(m.text)
+  return `<div class="row ${m.who}${m.first ? ' first' : ''}${reacted ? ' reacted' : ''}" data-at="${m.at}"><div class="b${big ? ' big' : ''} k-${kind}">${fwd}${body}<span class="sp" style="--mw:${m.who === 'me' ? 62 : 40}px"></span>${meta}${react}</div></div>`
 }
 
 // Draw the screen exactly as it is at time t (seconds). Everything is rebuilt from the timeline, so any frame
 // can be rendered in any order.
 function render(t) {
-  st.textContent = T.typing.some(([a, b]) => t >= a && t < b) ? 'typing…' : 'online'
+  const busy = T.typing.find(([a, b]) => t >= a && t < b)
+  st.textContent = busy ? busy[2] : 'online'
+  const lastShown = [...T.msgs].reverse().find(m => m.at <= t)
+  $('clock').textContent = lastShown?.clock ?? chat.clock
   st.classList.toggle('typing', st.textContent !== 'online')
 
   const inp = T.input.find(x => t >= x.start && t < x.sendAt)
@@ -317,7 +357,8 @@ function buildCover() {
   for (const k of ['ink', 'accent', 'paper']) el.style.setProperty(`--${k}`, art[k])
   // *word in the headline is written by hand in the accent colour
   const head = esc(chat.cover.headline).replace(/\*([^\s*]+)/g, '<b>$1</b>')
-  const hook = chat.script[0]?.text ?? ''
+  // the cover shows Mummy's first real text message (not a call or a voice note)
+  const hook = chat.script.find(l => l.who === 'them' && (l.kind ?? 'text') === 'text')?.text ?? ''
   el.innerHTML = `<img src="../brand/art/${art.file}" class="${art.fit === 'bottom' ? 'bottom' : ''}" style="object-position:${art.focus}" alt="">
     <div class="scrim" style="background:${art.scrim}"></div>
     <div class="cv ${art.area}">

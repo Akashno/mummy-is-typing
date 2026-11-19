@@ -1,54 +1,75 @@
 {
-  "title": "The Swiggy address",
-  "premise": "Daughter says she's at home cooking; Mummy, who is at home, says the Swiggy delivery guy just called her because the address is Mummy's.",
+  "title": "The washroom calls",
+  "premise": "Mummy calls three times and texts while the daughter is in the washroom; the daughter explains and Mummy says she did the same yesterday.",
   "cast": "mummy",
-  "clock": "20:30",
+  "clock": "13:04",
+  "idea": 0,
   "script": [
     {
       "who": "them",
-      "text": "Beta are you eating properly in Pune."
+      "kind": "missed-call",
+      "text": ""
+    },
+    {
+      "who": "them",
+      "kind": "missed-call",
+      "text": ""
+    },
+    {
+      "who": "them",
+      "kind": "missed-call",
+      "text": ""
+    },
+    {
+      "who": "them",
+      "text": "Hello"
+    },
+    {
+      "who": "them",
+      "text": "??"
+    },
+    {
+      "who": "time",
+      "text": "13:21"
     },
     {
       "who": "me",
-      "text": "yes mumma made rajma today"
+      "text": "mumma was in washroom"
     },
     {
       "who": "them",
       "pause": 1.2,
-      "text": "Wow."
-    },
-    {
-      "who": "them",
-      "text": "The delivery boy just called me. He is outside our house with your biryani."
-    },
-    {
-      "who": "me",
-      "text": "i changed the address by mistake 😭"
-    },
-    {
-      "who": "them",
-      "pause": 1.4,
-      "text": "I have kept it. Rajma is in the fridge for you."
+      "text": "Ok. Yesterday also washroom"
     }
   ],
-  "caption": "biryani at the wrong door",
+  "caption": "washroom again",
+  "cover": {
+    "headline": "Mummy called *3 times",
+    "emoji": "💀"
+  },
   "post": {
-    "caption": "Mummy took the biryani and left you the rajma. Send this to a daughter who has done this.",
+    "caption": "yesterday also washroom has me shaking",
     "hashtags": [
       "#mummyistyping",
       "#desimom",
       "#indianmom",
-      "#motherdaughter"
+      "#relatable"
     ],
-    "youtubeTitle": "Mummy got my Swiggy biryani"
+    "youtubeTitle": "Mummy called three times and I was in the washroom"
   },
-  "series": "caught",
+  "series": "mummy-wins",
+  "art": "sage-hug",
   "contact": "Mummy",
   "theme": "light",
   "showCaption": false,
-  "cover": {
-    "headline": "I said rajma. Mummy got my *biryani",
-    "emoji": "😭"
-  },
-  "art": "green-hug"
+  "judge": {
+    "n": 0,
+    "real": 8,
+    "funny": 7,
+    "tells": [
+      "Post caption: \"yesterday also washroom has me shaking\" repeats the punchline and uses page-voice internet-speak, no real person captions like that"
+    ],
+    "verdict": "pass",
+    "fix": ""
+  }
 }

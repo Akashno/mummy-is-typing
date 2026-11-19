@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reel Safe Zone</title>
+<style>
+:root{--bg:#f4f1ea;--fg:#1d1d1f;--mut:#6b6b6b;--card:#fff;--bad:#e5484d;--ok:#12a150}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141414;--fg:#eee;--mut:#9a9a9a;--card:#1e1e1e}}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}
+main{max-width:1000px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:24px;margin:0 0 4px}p.lead{color:var(--mut);margin:0 0 18px}
+.ctl{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.row{display:flex;gap:28px;flex-wrap:wrap;justify-content:center}
+figure{margin:0;text-align:center}figcaption{font-weight:600;margin-top:8px}figcaption small{display:block;font-weight:400;color:var(--mut)}
+/* 1080x1920 frame drawn at 1/4 scale: 270x480 */
+.f{position:relative;width:270px;height:480px;overflow:hidden;border-radius:14px;background:#efe7dd;box-shadow:0 6px 24px rgba(0,0,0,.18);font-family:Roboto,system-ui,sans-serif;color:#111}
+.ui{position:absolute;inset:0;display:flex;flex-direction:column}
+.sb{height:14px;font-size:8px;padding:2px 8px;background:#f0f0f0}
+.hd{height:34px;background:#f7f7f7;display:flex;align-items:center;gap:6px;padding:0 8px;font-size:11px;font-weight:600;border-bottom:1px solid #ddd}
+.hd i{width:22px;height:22px;border-radius:50%;background:#c9c9c9}
+.chat{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:5px;padding:6px 6px}
+.b{max-width:78%;font-size:10px;padding:5px 7px;border-radius:7px;background:#fff;align-self:flex-start;box-shadow:0 1px 0 rgba(0,0,0,.08)}
+.b.me{background:#d9fdd3;align-self:flex-end}
+.in{height:26px;margin:4px 6px;border-radius:13px;background:#fff;font-size:10px;color:#888;display:flex;align-items:center;padding:0 10px}
+.kb{height:150px;background:#e8eaed;display:grid;grid-template-columns:repeat(10,1fr);gap:3px;padding:6px 4px}
+.kb span{background:#fff;border-radius:3px}
+/* instagram overlay */
+.ig{position:absolute;inset:0;pointer-events:none}
+.ig .top{position:absolute;left:0;right:0;top:0;height:30px;background:linear-gradient(#0008,#0000);color:#fff;font-size:9px;padding:6px 10px;font-weight:600}
+.ig .side{position:absolute;right:6px;bottom:80px;display:flex;flex-direction:column;gap:12px}
+.ig .side b{width:20px;height:20px;border-radius:50%;border:2px solid #fff;background:#0003}
+.ig .cap{position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(#0000,#000a);color:#fff;font-size:9px;padding:0 40px 10px 10px;display:flex;flex-direction:column;justify-content:flex-end;gap:3px}
+.zone{position:absolute;border:1.5px dashed var(--ok);border-radius:6px;pointer-events:none}
+.zone.bad{border-color:var(--bad)}
+.hide-ig .ig,.hide-z .zone{display:none}
+/* proposed layout: real-phone status bar removed, 5% side inset, chat ends above 62% */
+.p .ui{inset:55px 14px 0 14px;border-radius:12px 12px 0 0;overflow:hidden;box-shadow:0 0 0 1px #0001}
+.p .sb{display:none}
+.p .wall{position:absolute;inset:0;background:radial-gradient(circle at 20% 10%,#f6e2c4,#e6d3b8)}
+.p .brand{position:absolute;top:22px;left:0;right:0;text-align:center;font:600 11px Georgia,serif;color:#6e1b26}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:28px}
+.card{background:var(--card);border-radius:12px;padding:14px 16px}
+.card h3{margin:0 0 6px;font-size:15px}.card ul{margin:0;padding-left:18px}
+code{font-size:13px}
+</style></head><body><main>
+<h1>Fixing the Instagram overlay</h1>
+<p class="lead">1080×1920 reels drawn at quarter size. Green dashed = Instagram's safe area (top 220px, bottom 450px, sides 60px, right icon column 140px). Red = what's broken today.</p>
+<div class="ctl">
+  <label><input type="checkbox" id="ig" checked> Instagram overlay</label>
+  <label><input type="checkbox" id="z" checked> Safe zones</label>
+</div>
+<div class="row" id="row">
+  <figure><div class="f">
+    <div class="ui"><div class="sb">11:20 · 82%</div><div class="hd"><i></i>Mummy</div>
+      <div class="chat"><div class="b">Why did you not pick up my call.</div><div class="b me">mummy fever hai. sleeping</div><div class="b">Your location says Shivaji Park.</div></div>
+      <div class="in">Message</div><div class="kb"></div></div>
+    <div class="ig"><div class="top">Reels</div><div class="side"><b></b><b></b><b></b><b></b></div><div class="cap">@mummyistyping<br>The location sharing you forgot about…</div></div>
+    <div class="zone bad" style="left:0;right:0;top:0;height:50px"></div>
+    <div class="zone bad" style="left:0;width:8px;top:50px;height:200px"></div>
+  </div><figcaption>Now<small>fake status bar collides with the real one and the notch; bubbles touch the edges</small></figcaption></figure>
+
+  <figure><div class="f p">
+    <div class="wall"></div><div class="brand">Mummy is typing…</div>
+    <div class="ui" style="background:#efe7dd"><div class="hd"><i></i>Mummy</div>
+      <div class="chat"><div class="b">Why did you not pick up my call.</div><div class="b me">mummy fever hai. sleeping</div><div class="b">Your location says Shivaji Park.</div></div>
+      <div class="in">Message</div><div class="kb"></div></div>
+    <div class="ig"><div class="top">Reels</div><div class="side"><b></b><b></b><b></b><b></b></div><div class="cap">@mummyistyping<br>The location sharing you forgot about…</div></div>
+    <div class="zone" style="left:15px;right:15px;top:55px;bottom:112px"></div>
+  </div><figcaption>Proposed<small>phone UI inset as a card, header under the notch, chat ends above the caption</small></figcaption></figure>
+</div>
+
+<div class="cards">
+  <div class="card"><h3>1 · Drop the fake status bar</h3><ul><li>The viewer's real phone already shows one; two clocks look broken.</li><li>Fill the top 220px with the brand wall + "Mummy is typing…" instead.</li></ul></div>
+  <div class="card"><h3>2 · Inset the phone 5% each side</h3><ul><li>Render the 412px phone into a ~1020px-wide card (≈56px margins).</li><li>Survives Instagram's crop on tall screens; bubbles never touch the edge.</li></ul></div>
+  <div class="card"><h3>3 · Keep the keyboard as filler</h3><ul><li>It sits under the caption and icons, which is fine: it's meant to be covered.</li><li>Rule: the newest message and input bar must end above y≈1180 (62%).</li></ul></div>
+  <div class="card"><h3>4 · Check it automatically</h3><ul><li>Add a <code>?safe=1</code> overlay to <code>engine/index.html</code> and draw it on the contact sheet.</li><li><code>npm run check</code> fails if a bubble's box enters the red zones.</li></ul></div>
+</div>
+</main>
+<script>
+const r=document.getElementById('row')
+document.querySelectorAll('.kb').forEach(k=>{k.innerHTML='<span></span>'.repeat(40)})
+document.getElementById('ig').onchange=e=>r.classList.toggle('hide-ig',!e.target.checked)
+document.getElementById('z').onchange=e=>r.classList.toggle('hide-z',!e.target.checked)
+</script>
+</body></html>

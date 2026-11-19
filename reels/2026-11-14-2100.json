@@ -1,49 +1,70 @@
 {
-  "title": "The grey hoodie",
-  "premise": "Mummy washed the daughter's favourite hoodie and it 'shrunk', conveniently to Mummy's size.",
+  "title": "Cold water forward",
+  "premise": "Mummy forwards 'cold water after food causes cancer' right after the daughter's cold coffee story, then tells her to drink warm water and send a photo.",
   "cast": "mummy",
-  "clock": "21:05",
+  "clock": "16:20",
+  "idea": 1,
   "script": [
     {
       "who": "them",
-      "text": "I washed your grey hoodie."
-    },
-    {
-      "who": "me",
-      "text": "mummy which one, the oversized one??"
+      "forwarded": true,
+      "text": "Drinking cold water after food causes cancer. Share with your children"
     },
     {
       "who": "them",
-      "text": "Yes. It has shrunk a little."
+      "pause": 1,
+      "text": "Saw your story"
     },
     {
       "who": "me",
-      "text": "how much is a little"
+      "text": "mumma its coffee"
     },
     {
       "who": "them",
       "pause": 1.3,
-      "text": "It fits me perfectly now."
+      "text": "Cold"
+    },
+    {
+      "who": "me",
+      "text": "ok ok"
+    },
+    {
+      "who": "them",
+      "text": "Drink warm water now"
+    },
+    {
+      "who": "them",
+      "text": "Send photo"
     }
   ],
-  "caption": "the shrinking hoodie",
+  "caption": "the single word cold",
+  "cover": {
+    "headline": "Mummy saw my *story",
+    "emoji": "☕"
+  },
   "post": {
-    "caption": "The hoodie never shrinks for the daughter. Send this to the Didi whose hoodies keep disappearing.",
+    "caption": "she watches every single story",
     "hashtags": [
       "#mummyistyping",
       "#desimom",
       "#indianmom",
-      "#motherdaughter"
+      "#relatable"
     ],
-    "youtubeTitle": "Mummy washed my hoodie and now it shrunk"
+    "youtubeTitle": "Mummy forwarded a health tip after my cold coffee story"
   },
-  "series": "her-things",
+  "series": "mummy-wins",
+  "art": "sage-hug",
   "contact": "Mummy",
   "theme": "light",
   "showCaption": false,
-  "cover": {
-    "headline": "Mummy washed my *hoodie",
-    "emoji": "🫠"
-  },
-  "art": "sage-hug"
+  "judge": {
+    "n": 0,
+    "real": 8,
+    "funny": 7,
+    "tells": [
+      "Caption \"she watches every single story\" slightly explains the joke"
+    ],
+    "verdict": "pass",
+    "fix": ""
+  }
 }

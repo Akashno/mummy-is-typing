@@ -6,8 +6,10 @@ minus the voice.
 
 ```mermaid
 flowchart LR
-  A[One Claude call writes 5 chats, ranked] --> B[checks keep the best that passes]
-  B --> C[headless Chrome draws the WhatsApp screen]
+  I[ideas.md: real moments] --> A
+  A[Claude writes 5 chats] --> B[checks]
+  B --> J[a second, harsh Claude call judges realness]
+  J --> C[headless Chrome draws the WhatsApp screen]
   C --> D[ffmpeg adds the message tones]
   D --> E[MP4 on GitHub Pages]
   E --> F[Buffer posts it]
@@ -18,9 +20,14 @@ flowchart LR
 - `brand/brand.json`: name, handle, hashtag, post times.
 - `brand/cast.json`: Mummy, and how she texts. Every chat is Mummy and her daughter, nobody else.
 - `brand/series.json`: the recurring formats and how often each runs (`weight`).
-- `prompts/writer.md`: the rules Claude writes by, above all the anti-cringe and emoji rules.
-- `scripts/write.ts`: the Claude call and the checks (message count, emoji, banned tropes, length, repeats).
-- `engine/index.html` + `engine/timeline.js`: the WhatsApp screen and its timing.
+- `ideas.md`: real moments from you and your followers. The writer builds on these first and ticks each one off.
+  This is the single best way to keep the page from reading like AI: add to it whenever something happens.
+- `prompts/writer.md`: the rules Claude writes by: the AI tells to avoid, the chat shapes, emoji, the cover.
+- `prompts/judge.md`: the second Claude call. It scores each chat that passes the checks for realness and
+  funniness and lists its AI tells; only a pass is kept (the score is saved in the reel as `judge`).
+- `scripts/write.ts`: both Claude calls and the checks (message count, emoji, banned tropes, length, repeats).
+- `engine/index.html` + `engine/timeline.js`: the WhatsApp screen and its timing, including missed calls, voice
+  notes, deleted and forwarded messages, and the clock jumping between messages.
 - `brand/art/` + `brand/art.json`: the cover illustrations and each one's colours, text position and fade. Each reel
   uses the picture that has gone longest unused. Only use art you made or have the rights to.
 - `engine/sounds/`: lookalike tones made by `npm run sounds`. Put your own `send.mp3` and `receive.mp3` in

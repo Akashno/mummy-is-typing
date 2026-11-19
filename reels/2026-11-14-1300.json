@@ -1,62 +1,70 @@
 {
-  "title": "The sick leave",
-  "premise": "Me says they have a fever and can't call; Mummy has seen their location on the cricket ground via location sharing.",
+  "title": "The long voice note",
+  "premise": "Mummy's 2 minute voice note is mostly her talking to Papa about the gas; the real message was in the last part and she knows daughter did not listen that far.",
   "cast": "mummy",
   "clock": "11:20",
+  "idea": 1,
   "script": [
     {
       "who": "them",
-      "text": "Why did you not pick up my call."
+      "kind": "voice",
+      "text": "2:04"
     },
     {
       "who": "me",
-      "text": "mummy fever hai. sleeping"
-    },
-    {
-      "who": "them",
-      "text": "Oh no. Drink kadha."
+      "text": "mumma pls type"
     },
     {
       "who": "me",
-      "text": "yes will do"
-    },
-    {
-      "who": "them",
-      "pause": 1.3,
-      "text": "Beta, are you at home."
-    },
-    {
-      "who": "me",
-      "text": "yes in bed"
+      "text": "i heard papa asking about gas"
     },
     {
       "who": "them",
       "pause": 1.5,
-      "text": "Your location says Shivaji Park."
+      "text": "Last part was for you"
+    },
+    {
+      "who": "me",
+      "text": "ya i didnt listen that far"
     },
     {
       "who": "them",
-      "text": "Hope the fever scored a century."
+      "pause": 1.2,
+      "text": "I know"
+    },
+    {
+      "who": "them",
+      "text": "Listen again"
     }
   ],
-  "caption": "fever scored a century",
+  "caption": "she knew",
+  "cover": {
+    "headline": "Mummy sent a *voice note",
+    "emoji": "🫠"
+  },
   "post": {
-    "caption": "The location sharing you forgot about. Send this to someone who bunks.",
+    "caption": "the last 20 seconds were for me and she knew",
     "hashtags": [
       "#mummyistyping",
-      "#indianfamily",
       "#desimom",
+      "#motherdaughter",
       "#relatable"
     ],
-    "youtubeTitle": "Fake fever vs Mummy's location sharing"
+    "youtubeTitle": "Mummy's 2 minute voice note"
   },
   "series": "mummy-wins",
+  "art": "sage-hug",
   "contact": "Mummy",
   "theme": "light",
   "showCaption": false,
-  "cover": {
-    "headline": "Fake fever vs Mummy's *location",
-    "emoji": "📍"
-  },
-  "art": "parchment"
+  "judge": {
+    "n": 0,
+    "real": 8,
+    "funny": 7,
+    "tells": [
+      "Post caption 'she knew' slightly explains the joke, but mild"
+    ],
+    "verdict": "pass",
+    "fix": ""
+  }
 }

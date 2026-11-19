@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["scores"],
+  "properties": {
+    "scores": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["n", "real", "funny", "tells", "verdict", "fix"],
+        "properties": {
+          "n": { "type": "integer", "description": "The chat's number as given" },
+          "real": { "type": "integer", "minimum": 1, "maximum": 10 },
+          "funny": { "type": "integer", "minimum": 1, "maximum": 10 },
+          "tells": { "type": "array", "items": { "type": "string" }, "description": "Each AI tell, quoting the words" },
+          "verdict": { "type": "string", "enum": ["pass", "fail"] },
+          "fix": { "type": "string", "description": "For a fail: one line on what would make it real. Empty for a pass." }
+        }
+      }
+    }
+  }
+}

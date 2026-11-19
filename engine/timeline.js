@@ -2,11 +2,15 @@
 // when your ticks turn blue, and the sound cues. Pure and deterministic, so the browser renderer and the
 // Node scripts (duration checks, the audio mix) always agree. Times are in seconds.
 //
-// chat.script items: { who: 'them' | 'me' | 'react', text, pause? }
-//   them   the contact's message; "typing…" shows in the header first
-//   me     your message; it is typed into the input bar, then sent
-//   react  an emoji reaction on the contact's last message
-//   pause  seconds to wait before this item (optional; sensible defaults otherwise)
+// chat.script items: { who, text, kind?, forwarded?, pause? }
+//   who: 'them'   Mummy's message; "typing…" (or "recording audio…" for a voice note) shows in the header first
+//        'me'     the daughter's message; text messages are typed into the input bar, then sent
+//        'react'  an emoji reaction (text) on Mummy's last message
+//        'time'   the clock jumps to text (HH:MM) for everything after it, e.g. a reply hours later
+//   kind: 'text' (default) · 'voice' (text is the length, e.g. "0:14") · 'missed-call' (Mummy only) ·
+//         'deleted' (Mummy: arrives deleted; me: sent, then deleted a moment later)
+//   forwarded: true shows the "Forwarded" label
+//   pause: seconds to wait before this item (optional; sensible defaults otherwise)
 
 export const HOLD = 2.4 // seconds the last message stays on screen
 export const COVER = 2.0 // the cover card near the end (Instagram's cover frame is picked from it)
@@ -34,14 +38,22 @@ export function timeline(chat, { caption = false, cover = !!chat.cover } = {}) {
 
   const rand = rng(chat.title || JSON.stringify(chat.script))
   const msgs = [] // { who, text, at, first, sentTicks?, readAt?, react?: { text, at } }
-  const typing = [] // [start, end] windows when the header says typing…
+  const typing = [] // [start, end, label] windows when the header says typing… / recording audio…
   const input = [] // { start, chars: [time per char], text, sendAt }
   const cues = [] // { t, kind: 'out' | 'in' }
   let t = 0
   let prevWho = null
+  let clock = chat.clock
 
   chat.script.forEach((item, i) => {
     const prev = chat.script[i - 1]
+    const kind = item.kind ?? 'text'
+    if (item.who === 'time') {
+      clock = item.text
+      t += item.pause ?? 0.3
+      prevWho = null // a new burst after a gap gets a fresh bubble tail
+      return
+    }
     if (item.who === 'react') {
       t += item.pause ?? 0.6
       const target = [...msgs].reverse().find(m => m.who === 'them')
@@ -51,34 +63,41 @@ export function timeline(chat, { caption = false, cover = !!chat.cover } = {}) {
     }
     const first = item.who !== prevWho
     prevWho = item.who
+    const base = { who: item.who, text: item.text, kind, forwarded: !!item.forwarded, clock, first }
     if (item.who === 'them') {
       if (i === 0) { // the hook is already on screen at frame 0
-        msgs.push({ who: 'them', text: item.text, at: -1, first })
+        msgs.push({ ...base, at: -1 })
         t = 0.9
         return
       }
       t += item.pause ?? (prev?.who === 'them' ? 0.25 : 0.65)
       for (const m of msgs) if (m.who === 'me' && m.readAt == null) m.readAt = t
-      const dur = Math.min(1.9, 0.65 + [...item.text].length * 0.03)
-      typing.push([t, t + dur])
-      t += dur
-      msgs.push({ who: 'them', text: item.text, at: t, first })
+      if (kind !== 'missed-call') { // a call just rings; everything else shows typing or recording first
+        const dur = kind === 'voice' ? 1.3 : kind === 'deleted' ? 0.9 : Math.min(1.9, 0.65 + [...item.text].length * 0.03)
+        typing.push([t, t + dur, kind === 'voice' ? 'recording audio…' : 'typing…'])
+        t += dur
+      }
+      msgs.push({ ...base, at: t })
       cues.push({ t, kind: 'in' })
-      t += 0.5
+      t += kind === 'missed-call' ? 0.8 : 0.5
     }
     else {
       t += item.pause ?? 0.6
-      const start = t
-      const chars = []
-      for (const ch of [...item.text]) {
-        t += 0.045 + rand() * 0.055 + (ch === ' ' ? 0.04 : 0)
-        chars.push(t)
+      if (kind === 'text' || kind === 'deleted') {
+        const start = t
+        const chars = []
+        for (const ch of [...item.text]) {
+          t += 0.045 + rand() * 0.055 + (ch === ' ' ? 0.04 : 0)
+          chars.push(t)
+        }
+        t += 0.22
+        input.push({ start, chars, text: [...item.text], sendAt: t })
       }
-      t += 0.22
-      input.push({ start, chars, text: [...item.text], sendAt: t })
-      msgs.push({ who: 'me', text: item.text, at: t, first })
+      const m = { ...base, at: t }
+      if (kind === 'deleted') { m.kind = 'text'; m.deletedAt = t + 1.2 } // she sends it, panics, deletes it
+      msgs.push(m)
       cues.push({ t, kind: 'out' })
-      t += 0.5
+      t += kind === 'deleted' ? 1.7 : 0.5
     }
   })
 

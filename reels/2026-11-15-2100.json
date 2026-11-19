@@ -1,0 +1,80 @@
+{
+  "title": "The light bill",
+  "premise": "Mummy asks her to 'just check' the electricity bill; it becomes a password reset, an OTP on Papa's phone, and then Mummy hands her the gas booking too.",
+  "cast": "mummy",
+  "clock": "19:48",
+  "idea": 2,
+  "script": [
+    {
+      "who": "them",
+      "text": "Beta just check light bill online"
+    },
+    {
+      "who": "me",
+      "text": "ok send login"
+    },
+    {
+      "who": "them",
+      "text": "Password I dont remember"
+    },
+    {
+      "who": "me",
+      "text": "reset karo mumma"
+    },
+    {
+      "who": "them",
+      "text": "OTP went to Papa phone"
+    },
+    {
+      "who": "me",
+      "text": "where is papa"
+    },
+    {
+      "who": "them",
+      "text": "Walk. Phone is with him"
+    },
+    {
+      "who": "time",
+      "text": "21:10"
+    },
+    {
+      "who": "me",
+      "text": "done. paid. 2,840"
+    },
+    {
+      "who": "them",
+      "text": "Ok now do gas booking"
+    }
+  ],
+  "caption": "just check, she said",
+  "cover": {
+    "headline": "Mummy said just check the *bill",
+    "emoji": "🫠"
+  },
+  "post": {
+    "caption": "it was supposed to take two minutes",
+    "hashtags": [
+      "#mummyistyping",
+      "#indianmom",
+      "#desimom",
+      "#relatable"
+    ],
+    "youtubeTitle": "Mummy asked me to just check the bill"
+  },
+  "series": "mummy-wins",
+  "art": "sage-hug",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false,
+  "judge": {
+    "n": 2,
+    "real": 8,
+    "funny": 7,
+    "tells": [
+      "Post caption: \"it was supposed to take two minutes\" (the chat never says two minutes, so the caption supplies the joke)",
+      "\"done. paid. 2,840\" (comma in the number is slightly neat)"
+    ],
+    "verdict": "pass",
+    "fix": ""
+  }
+}
