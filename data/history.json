@@ -70,5 +70,13 @@
     "premise": "Daughter asks Mummy for 500 rupees for 'books'; Mummy says she'll send it, then notes the exact amount matches the concert ticket she saw in her Bookmyshow email on the shared tablet.",
     "art": "parchment",
     "status": "posted"
+  },
+  {
+    "date": "2026-11-19-2100",
+    "title": "The Netflix profile",
+    "series": "mummy-wins",
+    "premise": "Daughter says she's studying for exams; Mummy notes Netflix on the shared account shows episode 9, and Mummy is only on episode 4, so no spoilers.",
+    "art": "sage-hug",
+    "status": "rendered"
   }
 ]

@@ -1,0 +1,53 @@
+{
+  "title": "The Netflix profile",
+  "premise": "Daughter says she's studying for exams; Mummy notes Netflix on the shared account shows episode 9, and Mummy is only on episode 4, so no spoilers.",
+  "cast": "mummy",
+  "clock": "23:15",
+  "script": [
+    {
+      "who": "them",
+      "text": "Are you studying."
+    },
+    {
+      "who": "me",
+      "text": "yes mumma since 8"
+    },
+    {
+      "who": "them",
+      "text": "Good. Which chapter."
+    },
+    {
+      "who": "me",
+      "text": "thermodynamics"
+    },
+    {
+      "who": "them",
+      "text": "Ok.",
+      "pause": 1.3
+    },
+    {
+      "who": "them",
+      "text": "Netflix says you are on episode 9. Papa and I are on episode 4, so no spoilers."
+    }
+  ],
+  "caption": "no spoilers mumma",
+  "cover": {
+    "headline": "I said I was *studying",
+    "emoji": "💀"
+  },
+  "post": {
+    "caption": "The Netflix account is shared and so is the evidence. Send this to your mumma before she sends it to you.",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#indianmom",
+      "#motherdaughter"
+    ],
+    "youtubeTitle": "Studying? Mummy checked Netflix"
+  },
+  "series": "mummy-wins",
+  "art": "sage-hug",
+  "contact": "Mummy",
+  "theme": "dark",
+  "showCaption": false
+}
