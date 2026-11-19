@@ -8,9 +8,9 @@
 //   react  an emoji reaction on the contact's last message
 //   pause  seconds to wait before this item (optional; sensible defaults otherwise)
 
-export const HOLD = 2.4 // seconds the punchline stays on screen
-export const COVER = 1.4 // the cover card near the end (Instagram's cover frame is picked from it)
-export const OUTRO = 2.2 // the follow / send-it-to-your-mumma card after the cover
+export const HOLD = 2.4 // seconds the last message stays on screen
+export const COVER = 2.0 // the cover card near the end (Instagram's cover frame is picked from it)
+export const OUTRO = 3.5 // the follow / send-it-to-your-mumma card after the cover
 const ENTER = 0.2 // message slide-in
 
 // small seeded random so typing speed varies but every render of the same chat is identical
@@ -20,7 +20,18 @@ function rng(seed) {
   return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 2 ** 32)
 }
 
+// Mummy's closer: after the punchline lands she sends one big 😌, a second small laugh that gives the joke time to
+// sink in. Only on real renders (cover on), so the writer's 8-24 s chat length check is unchanged. A chat can
+// pick its own with "closer": "🙂" or turn it off with "closer": false; skipped if Mummy already ends on an emoji.
+export const CLOSER = '😌'
+const EMOJI_ONLY = /^(?:\p{Extended_Pictographic}|\p{Emoji_Component}|\u200d|\ufe0f|\s)+$/u
+
 export function timeline(chat, { caption = false, cover = !!chat.cover } = {}) {
+  const last = chat.script.at(-1)
+  const closer = chat.closer === false ? null : (chat.closer || CLOSER)
+  if (cover && closer && !(last?.who === 'them' && EMOJI_ONLY.test(last.text)))
+    chat = { ...chat, script: [...chat.script, { who: 'them', text: closer, pause: 1.6 }] }
+
   const rand = rng(chat.title || JSON.stringify(chat.script))
   const msgs = [] // { who, text, at, first, sentTicks?, readAt?, react?: { text, at } }
   const typing = [] // [start, end] windows when the header says typing…

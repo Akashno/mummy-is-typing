@@ -39,5 +39,66 @@
     "accent": "#b5531f",
     "paper": "#ecd9a8",
     "scrim": "linear-gradient(180deg, rgba(236,217,168,.85) 0%, rgba(236,217,168,0) 45%)"
+  },
+  {
+    "id": "red-saree",
+    "file": "red-saree.webp",
+    "focus": "50% 30%",
+    "area": "bottom",
+    "ink": "#fff8ec",
+    "accent": "#ffd27a",
+    "paper": "#5a1616",
+    "scrim": "linear-gradient(180deg, rgba(90,22,22,0) 40%, rgba(90,22,22,.85) 62%, #5a1616 85%)"
+  },
+  {
+    "id": "pink-hug",
+    "file": "pink-hug.webp",
+    "focus": "50% 50%",
+    "area": "top",
+    "ink": "#3b2a1f",
+    "accent": "#d0566b",
+    "paper": "#fbf8f3",
+    "scrim": "linear-gradient(180deg, rgba(251,248,243,0) 0%, rgba(251,248,243,0) 100%)",
+    "fit": "bottom"
+  },
+  {
+    "id": "feeding",
+    "file": "feeding.webp",
+    "focus": "50% 40%",
+    "area": "bottom",
+    "ink": "#4a2a1f",
+    "accent": "#c2577a",
+    "paper": "#f3e6d3",
+    "scrim": "linear-gradient(180deg, rgba(243,230,211,0) 45%, rgba(243,230,211,.9) 64%, #f3e6d3 85%)"
+  },
+  {
+    "id": "hair-touch",
+    "file": "hair-touch.webp",
+    "focus": "50% 60%",
+    "area": "top",
+    "ink": "#3b2a1f",
+    "accent": "#b23a48",
+    "paper": "#e9dcb8",
+    "scrim": "linear-gradient(180deg, rgba(233,220,184,.75) 0%, rgba(233,220,184,0) 45%)"
+  },
+  {
+    "id": "yellow-hug",
+    "file": "yellow-hug.webp",
+    "focus": "50% 40%",
+    "area": "bottom",
+    "ink": "#3b2412",
+    "accent": "#c2185b",
+    "paper": "#f2c46d",
+    "scrim": "linear-gradient(180deg, rgba(242,196,109,0) 50%, rgba(242,196,109,.9) 66%, #f2c46d 85%)"
+  },
+  {
+    "id": "selfie",
+    "file": "selfie.webp",
+    "focus": "50% 35%",
+    "area": "bottom",
+    "ink": "#fff8ec",
+    "accent": "#ffd27a",
+    "paper": "#7a2440",
+    "scrim": "linear-gradient(180deg, rgba(122,36,64,0) 42%, rgba(122,36,64,.85) 62%, #7a2440 85%)"
   }
 ]

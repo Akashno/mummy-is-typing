@@ -1,6 +1,7 @@
 export const HOLD: number
 export const COVER: number
 export const OUTRO: number
+export const CLOSER: string
 export interface Timeline {
   msgs: Array<{ who: 'them' | 'me', text: string, at: number, first: boolean, readAt?: number, react?: { text: string, at: number } }>
   typing: Array<[number, number]>
