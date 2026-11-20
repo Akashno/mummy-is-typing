@@ -1,0 +1,68 @@
+{
+  "title": "The charger swap",
+  "premise": "Mummy asks for the white charger; daughter says it's hers; Mummy says she gave her the working one in March.",
+  "cast": "mummy",
+  "clock": "19:30",
+  "script": [
+    {
+      "who": "them",
+      "text": "Beta"
+    },
+    {
+      "who": "them",
+      "text": "White charger kahan hai"
+    },
+    {
+      "who": "me",
+      "text": "mine is in pg"
+    },
+    {
+      "who": "me",
+      "text": "urs is in the drawer"
+    },
+    {
+      "who": "them",
+      "text": "Drawer wala is not working"
+    },
+    {
+      "who": "them",
+      "pause": 1.3,
+      "text": "I gave you the good one in March"
+    },
+    {
+      "who": "me",
+      "text": "😭"
+    }
+  ],
+  "caption": "march",
+  "cover": {
+    "headline": "Mummy wants her *charger back",
+    "emoji": "🔌"
+  },
+  "post": {
+    "caption": "she remembered the month",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#motherdaughter",
+      "#relatable"
+    ],
+    "youtubeTitle": "Mummy wants her charger back"
+  },
+  "series": "her-things",
+  "art": "red-saree",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false,
+  "judge": {
+    "n": 1,
+    "real": 8,
+    "funny": 6,
+    "tells": [
+      "Caption \"she remembered the month\" mildly explains the joke",
+      "Daughter's closing \"😭\" is a stock reaction"
+    ],
+    "verdict": "pass",
+    "fix": ""
+  }
+}
