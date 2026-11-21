@@ -1,0 +1,62 @@
+{
+  "title": "The sick leave",
+  "premise": "Me says they have a fever and can't call; Mummy has seen their location on the cricket ground via location sharing.",
+  "cast": "mummy",
+  "clock": "11:20",
+  "script": [
+    {
+      "who": "them",
+      "text": "Why did you not pick up my call."
+    },
+    {
+      "who": "me",
+      "text": "mummy fever hai. sleeping"
+    },
+    {
+      "who": "them",
+      "text": "Oh no. Drink kadha."
+    },
+    {
+      "who": "me",
+      "text": "yes will do"
+    },
+    {
+      "who": "them",
+      "pause": 1.3,
+      "text": "Beta, are you at home."
+    },
+    {
+      "who": "me",
+      "text": "yes in bed"
+    },
+    {
+      "who": "them",
+      "pause": 1.5,
+      "text": "Your location says Shivaji Park."
+    },
+    {
+      "who": "them",
+      "text": "Hope the fever scored a century."
+    }
+  ],
+  "caption": "fever scored a century",
+  "post": {
+    "caption": "The location sharing you forgot about. Send this to someone who bunks.",
+    "hashtags": [
+      "#mummyistyping",
+      "#indianfamily",
+      "#desimom",
+      "#relatable"
+    ],
+    "youtubeTitle": "Fake fever vs Mummy's location sharing"
+  },
+  "series": "mummy-wins",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false,
+  "cover": {
+    "headline": "Fake fever vs Mummy's *location",
+    "emoji": "📍"
+  },
+  "art": "parchment"
+}

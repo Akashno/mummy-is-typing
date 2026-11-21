@@ -1,0 +1,53 @@
+{
+  "title": "The UPI request",
+  "premise": "Daughter asks Mummy for 500 rupees for 'books'; Mummy says she'll send it, then notes the exact amount matches the concert ticket she saw in her Bookmyshow email on the shared tablet.",
+  "cast": "mummy",
+  "clock": "21:15",
+  "script": [
+    {
+      "who": "them",
+      "text": "Beta, need anything for this month."
+    },
+    {
+      "who": "me",
+      "text": "mumma can u send 1500 for books"
+    },
+    {
+      "who": "them",
+      "text": "Which books."
+    },
+    {
+      "who": "me",
+      "text": "for the course. very imp"
+    },
+    {
+      "who": "them",
+      "pause": 1.2,
+      "text": "Ok."
+    },
+    {
+      "who": "them",
+      "text": "Tell the books I said enjoy the concert on Saturday."
+    }
+  ],
+  "caption": "books cost 1500",
+  "cover": {
+    "headline": "I asked Mummy for money for *books",
+    "emoji": "💀"
+  },
+  "post": {
+    "caption": "The books are very important. Send this to your mumma before she sends it to you.",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#indianmom",
+      "#motherdaughter"
+    ],
+    "youtubeTitle": "When you ask Mummy for money for books"
+  },
+  "series": "mummy-wins",
+  "art": "parchment",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false
+}

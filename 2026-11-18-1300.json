@@ -1,0 +1,53 @@
+{
+  "title": "The Nykaa lipstick",
+  "premise": "Daughter claims she never bought the new lipstick; Mummy says it arrived in her name so she already tested the shade and it suits her better.",
+  "cast": "mummy",
+  "clock": "19:05",
+  "script": [
+    {
+      "who": "them",
+      "text": "Your Nykaa parcel came."
+    },
+    {
+      "who": "me",
+      "text": "dont open it"
+    },
+    {
+      "who": "them",
+      "pause": 1.1,
+      "text": "Ok."
+    },
+    {
+      "who": "them",
+      "text": "Why is the lipstick called Brick Red Rebel."
+    },
+    {
+      "who": "me",
+      "text": "MUMMY 😭"
+    },
+    {
+      "who": "them",
+      "text": "It is mine now. Order another one."
+    }
+  ],
+  "caption": "nykaa parcel",
+  "cover": {
+    "headline": "Mummy opened my *Nykaa parcel",
+    "emoji": "💄"
+  },
+  "post": {
+    "caption": "Brick Red Rebel looks better on her anyway. Send this to your mumma.",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#indianmom",
+      "#motherdaughter"
+    ],
+    "youtubeTitle": "Mummy opened my Nykaa parcel"
+  },
+  "series": "her-things",
+  "art": "green-hug",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false
+}

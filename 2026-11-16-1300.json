@@ -1,0 +1,57 @@
+{
+  "title": "The turmeric stain",
+  "premise": "Daughter panics about a haldi stain on her white kurta; Mummy gives a remedy, then says it's the old Diwali stain because she wore that kurta.",
+  "cast": "mummy",
+  "clock": "13:20",
+  "script": [
+    {
+      "who": "them",
+      "text": "Why are you texting me during office hours."
+    },
+    {
+      "who": "me",
+      "text": "mummy haldi stain on my white kurta. help"
+    },
+    {
+      "who": "them",
+      "text": "Which kurta."
+    },
+    {
+      "who": "me",
+      "text": "the chikankari one"
+    },
+    {
+      "who": "them",
+      "pause": 1.3,
+      "text": "Put raw lemon and sit it in the sun."
+    },
+    {
+      "who": "me",
+      "text": "its raining in pune"
+    },
+    {
+      "who": "them",
+      "text": "That stain is from Diwali. Same kurta. I wore it."
+    }
+  ],
+  "caption": "old stain",
+  "cover": {
+    "headline": "Mummy knows this *stain",
+    "emoji": "💀"
+  },
+  "post": {
+    "caption": "Mummy has a stain database. Send this to your mumma.",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#indianmom",
+      "#relatable"
+    ],
+    "youtubeTitle": "Mummy and the haldi stain"
+  },
+  "series": "mummy-advice",
+  "art": "balcony",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false
+}
