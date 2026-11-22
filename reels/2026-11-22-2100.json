@@ -1,0 +1,76 @@
+{
+  "title": "The geyser",
+  "premise": "Landlord called Mummy about the geyser; Mummy asks if she checked the red switch; it works.",
+  "cast": "mummy",
+  "clock": "19:10",
+  "script": [
+    {
+      "who": "them",
+      "text": "Landlord uncle called me"
+    },
+    {
+      "who": "me",
+      "text": "why does he have ur number"
+    },
+    {
+      "who": "them",
+      "text": "You gave it. Geyser is not working"
+    },
+    {
+      "who": "me",
+      "text": "ya since 2 days"
+    },
+    {
+      "who": "them",
+      "text": "Red switch on the board is on?"
+    },
+    {
+      "who": "me",
+      "text": "..."
+    },
+    {
+      "who": "time",
+      "text": "19:14"
+    },
+    {
+      "who": "me",
+      "text": "its working"
+    },
+    {
+      "who": "them",
+      "text": "Ok."
+    }
+  ],
+  "caption": "the red switch",
+  "cover": {
+    "headline": "Landlord called *Mummy about me",
+    "emoji": "💀"
+  },
+  "post": {
+    "caption": "two days of cold showers for a switch",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#indianmom",
+      "#relatable"
+    ],
+    "youtubeTitle": "Mummy fixes the geyser from 1000 km away"
+  },
+  "series": "mummy-advice",
+  "art": "feeding",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false,
+  "judge": {
+    "n": 1,
+    "real": 8,
+    "funny": 7,
+    "tells": [
+      "Caption \"two days of cold showers for a switch\" restates the joke",
+      "\"Red switch on the board is on?\" is a very real boring detail, good",
+      "Slightly neat structure: setup, reveal, \"Ok.\" with full stop"
+    ],
+    "verdict": "pass",
+    "fix": ""
+  }
+}
