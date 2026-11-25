@@ -1,0 +1,68 @@
+{
+  "title": "Reached?",
+  "premise": "Mummy asks if the daughter reached the PG; she says yes hours later and Mummy is still up.",
+  "cast": "mummy",
+  "clock": "23:50",
+  "script": [
+    {
+      "who": "them",
+      "text": "Reached?"
+    },
+    {
+      "who": "them",
+      "text": "Beta"
+    },
+    {
+      "who": "them",
+      "kind": "missed-call",
+      "text": ""
+    },
+    {
+      "who": "time",
+      "text": "00:40"
+    },
+    {
+      "who": "me",
+      "text": "reached sorry phone died"
+    },
+    {
+      "who": "them",
+      "pause": 1.2,
+      "text": "Ok beta"
+    },
+    {
+      "who": "them",
+      "text": "Lock the door"
+    }
+  ],
+  "caption": "",
+  "cover": {
+    "headline": "Mummy waited up for my *text",
+    "emoji": "🥺"
+  },
+  "post": {
+    "caption": "she was awake the whole time",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#indianmom",
+      "#motherdaughter"
+    ],
+    "youtubeTitle": "Mummy asks if I reached"
+  },
+  "series": "soft-mummy",
+  "art": "yellow-hug",
+  "contact": "Mummy",
+  "theme": "dark",
+  "showCaption": false,
+  "judge": {
+    "n": 0,
+    "real": 8,
+    "funny": 6,
+    "tells": [
+      "Post caption: \"she was awake the whole time\" – mildly explains the joke, though the chat already shows it"
+    ],
+    "verdict": "pass",
+    "fix": ""
+  }
+}
