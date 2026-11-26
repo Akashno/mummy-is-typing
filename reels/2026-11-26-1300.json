@@ -1,0 +1,61 @@
+{
+  "title": "Face wash",
+  "premise": "Daughter asks if Mummy took her face wash; Mummy says it was nearly finished, so she bought the same one.",
+  "cast": "mummy",
+  "clock": "22:10",
+  "script": [
+    {
+      "who": "them",
+      "text": "Your face wash is finished"
+    },
+    {
+      "who": "me",
+      "text": "what i just bought it"
+    },
+    {
+      "who": "them",
+      "text": "I used it also"
+    },
+    {
+      "who": "them",
+      "text": "Bought new one. In my bag"
+    },
+    {
+      "who": "me",
+      "text": "mumma thats 600 rupees"
+    },
+    {
+      "who": "them",
+      "text": "👍"
+    }
+  ],
+  "caption": "",
+  "cover": {
+    "headline": "Mummy used my *face wash",
+    "emoji": "😭"
+  },
+  "post": {
+    "caption": "the 👍 at the end",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#relatable"
+    ],
+    "youtubeTitle": "Mummy used my face wash"
+  },
+  "series": "her-things",
+  "art": "selfie",
+  "contact": "Mummy",
+  "theme": "dark",
+  "showCaption": false,
+  "judge": {
+    "n": 3,
+    "real": 8,
+    "funny": 7,
+    "tells": [
+      "Caption \"the 👍 at the end\" mildly points at the joke"
+    ],
+    "verdict": "pass",
+    "fix": ""
+  }
+}
