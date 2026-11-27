@@ -134,5 +134,13 @@
     "premise": "Mummy messages in the morning noting the daughter was online at 3am, and says she was too, because she couldn't sleep worrying.",
     "art": "green-hug",
     "status": "rendered"
+  },
+  {
+    "date": "2026-11-27-1300",
+    "title": "Voice note",
+    "series": "mummy-wins",
+    "premise": "Mummy sends a long voice note; daughter asks her to type; Mummy types one word.",
+    "art": "balcony",
+    "status": "rendered"
   }
 ]
