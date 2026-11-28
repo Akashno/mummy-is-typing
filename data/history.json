@@ -142,5 +142,13 @@
     "premise": "Mummy sends a long voice note; daughter asks her to type; Mummy types one word.",
     "art": "balcony",
     "status": "posted"
+  },
+  {
+    "date": "2026-11-28-1300",
+    "title": "Deleted at midnight",
+    "series": "mummy-wins",
+    "premise": "Daughter sends a complaint about Mummy's earrings and deletes it; Mummy saw and says she's wearing them anyway.",
+    "art": "parchment",
+    "status": "rendered"
   }
 ]
