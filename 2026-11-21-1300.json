@@ -1,0 +1,68 @@
+{
+  "title": "The story",
+  "premise": "Mummy asks whose hand is holding the chai in the daughter's story; it's her own friend, but Mummy has noticed the cup is from the cafe near the PG she said she doesn't go to.",
+  "cast": "mummy",
+  "clock": "18:22",
+  "script": [
+    {
+      "who": "them",
+      "text": "Nice story"
+    },
+    {
+      "who": "me",
+      "text": "thanks mumma"
+    },
+    {
+      "who": "them",
+      "text": "Which cafe"
+    },
+    {
+      "who": "me",
+      "text": "just near pg"
+    },
+    {
+      "who": "them",
+      "pause": 1.2,
+      "text": "You said no money this week"
+    },
+    {
+      "who": "me",
+      "text": "friend paid"
+    },
+    {
+      "who": "them",
+      "text": "👍"
+    }
+  ],
+  "caption": "nice story",
+  "cover": {
+    "headline": "Mummy watched my *story",
+    "emoji": "😳"
+  },
+  "post": {
+    "caption": "the 👍 at the end",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#motherdaughter",
+      "#relatable"
+    ],
+    "youtubeTitle": "Mummy watched my Instagram story"
+  },
+  "series": "caught",
+  "art": "pink-hug",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false,
+  "judge": {
+    "n": 0,
+    "real": 7,
+    "funny": 6,
+    "tells": [
+      "Post caption 'the 👍 at the end' mildly points at the joke",
+      "'Nice story' is a slightly neat opener, but plausible"
+    ],
+    "verdict": "pass",
+    "fix": ""
+  }
+}

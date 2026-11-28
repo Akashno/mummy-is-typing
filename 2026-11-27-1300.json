@@ -1,0 +1,64 @@
+{
+  "title": "Voice note",
+  "premise": "Mummy sends a long voice note; daughter asks her to type; Mummy types one word.",
+  "cast": "mummy",
+  "clock": "08:50",
+  "script": [
+    {
+      "who": "them",
+      "kind": "voice",
+      "text": "2:31"
+    },
+    {
+      "who": "me",
+      "text": "mumma pls type"
+    },
+    {
+      "who": "me",
+      "text": "in metro"
+    },
+    {
+      "who": "them",
+      "pause": 1.5,
+      "text": "Ok"
+    },
+    {
+      "who": "time",
+      "text": "09:40"
+    },
+    {
+      "who": "them",
+      "text": "Call me when you reach"
+    }
+  ],
+  "caption": "",
+  "cover": {
+    "headline": "Mummy sent a *voice note",
+    "emoji": "💀"
+  },
+  "post": {
+    "caption": "2:31 and the summary is call me",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#motherdaughter"
+    ],
+    "youtubeTitle": "Mummy's long voice note"
+  },
+  "series": "mummy-wins",
+  "art": "balcony",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false,
+  "judge": {
+    "n": 2,
+    "real": 8,
+    "funny": 6,
+    "tells": [
+      "Caption 'the summary is call me' restates the joke",
+      "Slight neatness in 'Ok' then 'Call me when you reach'"
+    ],
+    "verdict": "pass",
+    "fix": ""
+  }
+}

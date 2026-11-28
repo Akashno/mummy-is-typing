@@ -1,0 +1,65 @@
+{
+  "title": "Missed calls",
+  "premise": "Mummy calls twice, daughter replies late claiming class; it's Sunday.",
+  "cast": "mummy",
+  "clock": "17:00",
+  "script": [
+    {
+      "who": "them",
+      "kind": "missed-call",
+      "text": ""
+    },
+    {
+      "who": "them",
+      "kind": "missed-call",
+      "text": ""
+    },
+    {
+      "who": "them",
+      "text": "Hello"
+    },
+    {
+      "who": "time",
+      "text": "19:12"
+    },
+    {
+      "who": "me",
+      "text": "sorry mumma class tha"
+    },
+    {
+      "who": "them",
+      "pause": 1.2,
+      "text": "Today is Sunday"
+    }
+  ],
+  "caption": "sunday",
+  "cover": {
+    "headline": "I missed *Mummy's calls",
+    "emoji": "💀"
+  },
+  "post": {
+    "caption": "it was in fact sunday",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#indianmom",
+      "#motherdaughter"
+    ],
+    "youtubeTitle": "Missed calls from Mummy"
+  },
+  "series": "mummy-wins",
+  "art": "hair-touch",
+  "contact": "Mummy",
+  "theme": "light",
+  "showCaption": false,
+  "judge": {
+    "n": 1,
+    "real": 8,
+    "funny": 8,
+    "tells": [
+      "Post caption: it was in fact sunday — restates the joke, minor"
+    ],
+    "verdict": "pass",
+    "fix": ""
+  }
+}

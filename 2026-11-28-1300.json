@@ -1,0 +1,64 @@
+{
+  "title": "Deleted at midnight",
+  "premise": "Daughter sends a complaint about Mummy's earrings and deletes it; Mummy saw and says she's wearing them anyway.",
+  "cast": "mummy",
+  "clock": "23:48",
+  "script": [
+    {
+      "who": "them",
+      "text": "Beta"
+    },
+    {
+      "who": "them",
+      "text": "Wearing your jhumkas tomorrow"
+    },
+    {
+      "who": "me",
+      "kind": "deleted",
+      "text": "mumma those are mine, not again"
+    },
+    {
+      "who": "me",
+      "text": "ok"
+    },
+    {
+      "who": "them",
+      "text": "I saw it"
+    },
+    {
+      "who": "them",
+      "pause": 1.3,
+      "text": "Will keep them back in the box 👍"
+    }
+  ],
+  "caption": "saw it",
+  "cover": {
+    "headline": "Mummy took my *jhumkas again",
+    "emoji": "😳"
+  },
+  "post": {
+    "caption": "the 👍 is a threat",
+    "hashtags": [
+      "#mummyistyping",
+      "#desimom",
+      "#motherdaughter"
+    ],
+    "youtubeTitle": "Mummy borrows my jhumkas again"
+  },
+  "series": "mummy-wins",
+  "art": "parchment",
+  "contact": "Mummy",
+  "theme": "dark",
+  "showCaption": false,
+  "judge": {
+    "n": 1,
+    "real": 8,
+    "funny": 7,
+    "tells": [
+      "\"I saw it\" is slightly neat as a beat, though believable for a deleted message that Mummy caught",
+      "Caption \"the 👍 is a threat\" explains the joke"
+    ],
+    "verdict": "pass",
+    "fix": ""
+  }
+}
